@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINE AI STUDIO</title>
+<style>
+body {
+  margin: 0;
+  background: #080b18;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+header {
+  padding: 25px;
+  background: #151a30;
+  color: #00e5ff;
+  font-size: 27px;
+  font-weight: bold;
+}
+main { padding: 25px; }
+textarea {
+  width: 90%;
+  height: 120px;
+  background: #171d35;
+  color: white;
+  border: 1px solid #00e5ff;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 16px;
+}
+button {
+  margin: 15px;
+  padding: 14px 28px;
+  background: #00c8ff;
+  color: #07101d;
+  border: 0;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+}
+#result {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #39415c;
+  border-radius: 12px;
+  max-width: 500px;
+}
+</style>
+</head>
+<body>
+<header>🎬 CINE AI STUDIO</header>
+<main>
+<h2>AI VIDEO GENERATOR</h2>
+<p>Describe your dream video</p>
+<textarea id="prompt" placeholder="Write your video idea here..."></textarea>
+<br>
+<button onclick="generate()">Generate Video</button>
+<div id="result">Your video will appear here.</div>
+</main>
+<script>
+function generate() {
+ const prompt = document.getElementById('prompt').value.trim();
+ if (!prompt) {
+  alert('Please write a video idea first!');
+  return;
+ }
+ document.getElementById('result').innerText =
+ 'Your video prompt: ' + prompt +
+ '\n\nVideo generation engine will be connected in the next step.';
+}
+</script>
+</body>
+</html>
