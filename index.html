@@ -260,12 +260,10 @@
 
             logMessage(`🔄 Scene ${sceneNum}/${totalScenes} -> Routing through Swarm Node #${currentEngineNode}...`);
 
-            // 1000-Engine Dynamic URL Rotation / Failover Simulation
             const seed = currentEngineNode * sceneNum * 99;
             const enhancedPrompt = `${basePrompt}, cinematic ${shot} motion, high dynamic range, 8k resolution, scene ${sceneNum}`;
             const encoded = encodeURIComponent(enhancedPrompt);
 
-            // यहाँ हम वीडियो और मोशन ओरिएंटेड ओपन वीडियो/इमेज जनरेशन नोड्स को रोटेट करते हैं
             const swarmEndpoints = [
                 `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${seed}&nologo=true`,
                 `https://pollinations.ai/p/${encoded}?width=1024&height=576&seed=${seed}`
@@ -280,7 +278,6 @@
             img.onload = function() {
                 logMessage(`✅ Node #${currentEngineNode} Rendered Scene ${sceneNum} Successfully.`);
                 
-                // कैनवास मोशन फ्रेम बनाकर वीडियो सेगमेंट तैयार करना
                 createMotionSegment(img, sceneNum, () => {
                     currentEngineNode = (currentEngineNode % maxSwarmNodes) + 1;
                     renderSwarmScene(sceneNum + 1, basePrompt, lang, shot);
@@ -290,7 +287,6 @@
             img.onerror = function() {
                 logMessage(`⚠️ Node #${currentEngineNode} Limit / Timeout! Swarm Auto-Switching to Node #${currentEngineNode + 1}...`);
                 currentEngineNode = (currentEngineNode % maxSwarmNodes) + 1;
-                // ऑटो-रिट्राई तुरंत अगले नोड से
                 setTimeout(() => {
                     renderSwarmScene(sceneNum, basePrompt, lang, shot);
                 }, 200);
@@ -323,7 +319,6 @@
 
             recorder.start();
 
-            // 2 सेकंड का मोशन रेंडर लूप प्रति सीन
             const renderInterval = setInterval(() => {
                 scale += 0.002;
                 ctx.save();
@@ -333,7 +328,6 @@
                 ctx.drawImage(imgObj, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
                 ctx.restore();
 
-                // सिनेमैटिक टेक्स्ट ओवरले
                 ctx.fillStyle = "rgba(0,0,0,0.7)";
                 ctx.fillRect(15, 15, 260, 35);
                 ctx.fillStyle = "#00ff66";
@@ -341,7 +335,7 @@
                 ctx.fillText(`🚁 SWARM SCENE #${sceneNum} [DRONE/MOTION]`, 25, 37);
 
                 framesCount++;
-                if (framesCount > 60) { // 2 सेकंड प्रति सीन
+                if (framesCount > 60) {
                     clearInterval(renderInterval);
                     recorder.stop();
                 }
@@ -361,7 +355,7 @@
                 <br>
                 <a href="${videoUrl}" download="CineAI_Swarm_Master_Movie.mp4" class="main-btn" style="text-decoration: none; display: inline-block; margin-top: 10px; text-align: center;">📥 DOWNLOAD MASTER MOVIE (MP4)</a>
             `;
-            logMessage("=== 🎯 MASTER MOVIE READY FOR DOWNLOAD! ==고자");
+            logMessage("=== 🎯 MASTER MOVIE READY FOR DOWNLOAD! ===");
         }
     </script>
 </body>
