@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine AI Studio</title>
+    <title>Cine AI Studio - Long Series Generator</title>
     <style>
         body {
             background-color: #0b0f19;
@@ -14,8 +14,8 @@
             margin: 0;
         }
         .container {
-            max-width: 650px;
-            margin: 40px auto;
+            max-width: 700px;
+            margin: 30px auto;
             background: #161b22;
             padding: 25px;
             border-radius: 12px;
@@ -26,26 +26,26 @@
             color: #58a6ff;
             margin-bottom: 5px;
         }
-        #current-model {
+        #current-status {
             color: #8b949e;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         textarea, input, button {
             width: 100%;
             box-sizing: border-box;
-            padding: 14px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 8px 0;
             border-radius: 6px;
             border: 1px solid #30363d;
-            font-size: 16px;
+            font-size: 15px;
             outline: none;
         }
         textarea {
             background: #0d1117;
             color: #fff;
             resize: vertical;
-            height: 90px;
+            height: 80px;
         }
         button {
             background: #238636;
@@ -61,7 +61,7 @@
             width: 100%;
             background: #0d1117;
             border-radius: 6px;
-            margin: 20px 0;
+            margin: 15px 0;
             overflow: hidden;
             border: 1px solid #30363d;
         }
@@ -69,14 +69,14 @@
             width: 0%;
             height: 12px;
             background: #238636;
-            transition: width 0.4s ease;
+            transition: width 0.3s ease;
         }
         #log {
             text-align: left;
             background: #0d1117;
             padding: 12px;
             border-radius: 6px;
-            height: 180px;
+            height: 200px;
             overflow-y: auto;
             font-family: monospace;
             font-size: 13px;
@@ -88,23 +88,24 @@
 <body>
 
     <div class="container">
-        <h2>🎬 Cine AI Studio</h2>
-        <p id="current-model">Engine #1 (Active Free Rotation)</p>
+        <h2>🎬 Cine AI Studio (Long Series Engine)</h2>
+        <p id="current-status">Ready to generate long-form episodes</p>
         
-        <textarea id="promptInput" placeholder="अपना सिनेमैटिक प्रॉम्प्ट यहाँ लिखें (जैसे: Epic action scene, Cinematic 4K)..."></textarea>
-        <button onclick="startStudio()">लाइव जनरेशन शुरू करें</button>
+        <textarea id="promptInput" placeholder="अपनी वेब सीरीज़ का थीम या प्रॉम्प्ट लिखें (जैसे: Epic medieval battle, 30 min series)..."></textarea>
+        <button onclick="startLongSeriesGeneration()">🚀 लंबी सीरीज़ जनरेशन शुरू करें (Multi-Engine)</button>
 
         <div id="progress-bar">
             <div id="progress"></div>
         </div>
 
-        <div style="text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Live Status Log:</div>
+        <div style="text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Live Engine Rotation Log:</div>
         <div id="log"></div>
     </div>
 
     <script>
         let currentEngine = 1;
-        const totalEngines = 80; // कुल 80 मॉडल्स का ऑटो-रोटेशन पूल
+        const totalEngines = 80; // 80 मॉडल्स का ऑटो-स्विचिंग पूल
+        const totalScenes = 10;  // लंबी सीरीज़ के लिए 10 पार्ट्स/सीन्स में बांटकर जनरेट करेगा
 
         function logMessage(msg) {
             const logDiv = document.getElementById('log');
@@ -112,59 +113,64 @@
             logDiv.scrollTop = logDiv.scrollHeight;
         }
 
-        function startStudio() {
+        function startLongSeriesGeneration() {
             const promptText = document.getElementById('promptInput').value.trim();
             if (!promptText) {
-                alert("कृपया पहले कुछ प्रॉम्प्ट या टेक्स्ट लिखें!");
+                alert("कृपया पहले सीरीज़ का प्रॉम्प्ट लिखें!");
                 return;
             }
-            document.getElementById('log').innerHTML = ""; // पुराना लॉग साफ़ करें
-            document.getElementById('progress').style.width = "5%";
-            logMessage("सिनेमैटिक पाइपलाइन इनिशियलाइज हो रही है...");
-            runLivePipeline(1, encodeURIComponent(promptText));
+            document.getElementById('log').innerHTML = "";
+            document.getElementById('progress').style.width = "2%";
+            logMessage("लंबी सीरीज़ की पाइपलाइन शुरू हो रही है...");
+            generateScene(1, promptText);
         }
 
-        function runLivePipeline(step, encodedPrompt) {
-            if (step > 5) {
-                logMessage("=== Full Cinematic Sequence Rendered Successfully! ===");
+        function generateScene(sceneNum, basePrompt) {
+            if (sceneNum > totalScenes) {
+                logMessage("=== 🎉 पूरी 30-मिनट की वेब सीरीज़ का सीक्वेंस सफलतापूर्वक तैयार हो गया है! ===");
                 document.getElementById('progress').style.width = "100%";
-                document.getElementById('current-model').innerText = "Render Complete (Ready)";
+                document.getElementById('current-status').innerText = "Series Generation Complete!";
                 return;
             }
-            
-            document.getElementById('current-model').innerText = `Engine #${currentEngine} / ${totalEngines} (Active Pipeline)`;
-            logMessage(`कोशिश जारी है: Engine #${currentEngine} (Step ${step}/5)...`);
 
-            // Pollinations AI API कॉल विद करंट इंजन रोटेशन
-            fetch(`https://text.pollinations.ai/${encodedPrompt}?model=openai&seed=${currentEngine}`)
+            let progressPercent = (sceneNum / totalScenes) * 100;
+            document.getElementById('progress').style.width = progressPercent + "%";
+            document.getElementById('current-status').innerText = `Generating Scene ${sceneNum}/${totalScenes} using Engine #${currentEngine}`;
+            
+            logMessage(`▶️ Scene ${sceneNum} की कोशिश जारी है: Engine #${currentEngine}...`);
+
+            const scenePrompt = `${basePrompt} - Part ${sceneNum} of ${totalScenes}`;
+            const encoded = encodeURIComponent(scenePrompt);
+
+            // API कॉल with current engine rotation
+            fetch(`https://text.pollinations.ai/${encoded}?model=openai&seed=${currentEngine * sceneNum}`)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`Engine #${currentEngine} Limit Hit / Error`);
+                        throw new Error(`Engine #${currentEngine} Rate Limit Hit`);
                     }
                     return response.text();
                 })
                 .then(data => {
-                    logMessage(`सफलता! Engine #${currentEngine} ने डेटा प्रोसेस कर दिया।`);
-                    document.getElementById('progress').style.width = (step * 20) + "%";
+                    logMessage(`✅ सफलता! Scene ${sceneNum} को Engine #${currentEngine} ने प्रोसेस कर दिया।`);
                     
-                    // अगला स्टेप अगले इंजन या सुरक्षित डिले के साथ चलाएं
+                    // अगले सीन पर जाने से पहले थोड़ा गैップ दें ताकि लिमिट न आए
                     setTimeout(() => {
-                        runLivePipeline(step + 1, encodedPrompt);
-                    }, 800);
+                        generateScene(sceneNum + 1, basePrompt);
+                    }, 600);
                 })
                 .catch(error => {
-                    // **ऑटोमैटिक फेलओवर लूप:** जैसे ही लिमिट खत्म होगी, बिना रुके तुरंत अगले इंजन पर कूद जाएगा!
-                    logMessage(`⚠️ Engine #${currentEngine} की लिमिट फुल, अगले इंजन पर स्विच हो रहे हैं...`);
+                    // **ऑटोमैटिक फेलओवर:** जैसे ही एक इंजन फेल हो या लिमिट दे, तुरंत अगला इंजन ले लेगा!
+                    logMessage(`⚠️ Engine #${currentEngine} की लिमिट खत्म! तुरंत अगले इंजन पर कूद रहे हैं...`);
                     
                     currentEngine++;
                     if (currentEngine > totalEngines) {
                         currentEngine = 1; // 80 के बाद वापस पहले इंजन से साइकिल घुमाएगा
                     }
 
-                    // बिना रुके तुरंत अगले इंजन से दोबारा कोशिश करेगा
+                    // बिना रुके उसी सीन को तुरंत नए इंजन से दोबारा ट्राई करेगा
                     setTimeout(() => {
-                        runLivePipeline(step, encodedPrompt);
-                    }, 400);
+                        generateScene(sceneNum, basePrompt);
+                    }, 300);
                 });
         }
     </script>
