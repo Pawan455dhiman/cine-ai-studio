@@ -1,145 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINE AI Studio - Pro Automated Suite</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Cine AI Studio</title>
+    <style>
+        :root {
+            --bg-color: #0f0f15;
+            --card-bg: #1a1a24;
+            --accent-color: #ff3366;
+            --text-color: #ffffff;
+            --subtext-color: #a0a0b0;
+        }
+        body {
+            margin: 0;
+            padding: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #2a2a38;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .nav-btn {
+            background: #2a2a38;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .tab-group {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            background: var(--card-bg);
+            border: 1px solid #2a2a38;
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .tab.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        .input-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: var(--card-bg);
+            border: 1px solid #2a2a38;
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+            box-sizing: border-box;
+            font-size: 14px;
+            resize: none;
+        }
+        .mic-btn {
+            position: absolute;
+            right: 10px;
+            bottom: 15px;
+            background: var(--accent-color);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+        }
+        .action-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #ff3366, #ff6633);
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .status-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #2a2a38;
+        }
+        .model-badge {
+            display: inline-block;
+            background: #00c853;
+            color: black;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen p-4">
-    <div class="max-w-xl mx-auto space-y-6 pb-12">
-        <header class="text-center space-y-2">
-            <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">🎬 CINE AI Studio Pro</h1>
-            <p class="text-slate-400 text-sm">Zero-Cost Cinematic Web Series & Auto-Pipeline Generator</p>
-        </header>
+<body>
 
-        <!-- Main Studio Control Panel -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-            <!-- Prompt with Voice Mic Option -->
-            <div>
-                <div class="flex justify-between items-center mb-1">
-                    <label class="block text-sm font-medium text-slate-300">Cinematic Story Prompt</label>
-                    <button onclick="startVoiceInput()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-lg flex items-center gap-1 transition">
-                        🎤 Speak / Mic
-                    </button>
-                </div>
-                <textarea id="promptInput" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500 text-sm" placeholder="e.g., An Arabian queen combating a blue jinn in a desert storm...">An Arabian queen combating a blue jinn in a desert storm</textarea>
-            </div>
-
-            <!-- Engines & Chaining -->
-            <div class="grid grid-cols-1 gap-3">
-                <div>
-                    <label class="block text-xs font-medium text-slate-400 mb-1">Primary Engine Model (Multi-Chaining Enabled)</label>
-                    <select id="engineSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none text-sm">
-                        <option>Hunyuan Video (Base 5s Clip)</option>
-                        <option>Luma Dream Machine</option>
-                        <option>Runway Gen-3 Alpha</option>
-                        <option>Stable Video Diffusion</option>
-                    </select>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Video Format / Aspect</label>
-                        <select id="formatSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none text-sm">
-                            <option value="16:9">16:9 (YouTube / Cinematic)</option>
-                            <option value="9:16">9:16 (FB Reels / Shorts)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Visual Aesthetic</label>
-                        <select id="styleSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white focus:outline-none text-sm">
-                            <option>Hollywood 4K Blockbuster</option>
-                            <option>1980s Retro Cinematic</option>
-                            <option>Dark Fantasy Wuxia</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Advanced Swapping Options -->
-            <div class="border-t border-slate-800 pt-3 space-y-2">
-                <span class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Advanced Swapping Pipeline</span>
-                <div class="grid grid-cols-2 gap-2">
-                    <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs cursor-pointer">
-                        <input type="checkbox" id="faceSwapToggle" class="accent-indigo-500" checked>
-                        <span>Face / Character Swap</span>
-                    </label>
-                    <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs cursor-pointer">
-                        <input type="checkbox" id="autoChainToggle" class="accent-indigo-500" checked>
-                        <span>Auto-Chain 30m Series</span>
-                    </label>
-                </div>
-            </div>
-
-            <button onclick="generateCinematicPipeline()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:opacity-90 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition duration-200 text-sm">
-                🚀 Launch 4K Automated Pipeline
-            </button>
-        </div>
-
-        <!-- Real-time Status / Execution Log -->
-        <div id="outputBox" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
-            <h2 class="text-sm font-semibold text-indigo-400 flex items-center justify-between">
-                <span>⚡ Live Generation & Automation Log</span>
-                <span id="progressIndicator" class="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full animate-pulse">Processing...</span>
-            </h2>
-            <div id="statusText" class="bg-slate-950 p-3 rounded-xl font-mono text-xs text-slate-300 border border-slate-800 space-y-1"></div>
+    <div class="header">
+        <div class="logo">🎬 CINE AI STUDIO</div>
+        <div>
+            <button class="nav-btn">📜 History</button>
+            <button class="nav-btn">⚙️ Settings</button>
         </div>
     </div>
 
+    <div class="tab-group">
+        <button class="tab active">Text to Video</button>
+        <button class="tab">Photo to Video</button>
+    </div>
+
+    <div class="input-box">
+        <textarea id="prompt" placeholder="अपनी फिल्म का सीन या प्रॉम्प्ट यहाँ लिखें या माइक से बोलें..."></textarea>
+        <button class="mic-btn" onclick="startDictation()">🎤</button>
+    </div>
+
+    <button class="action-btn">🚀 Generate Scene</button>
+
+    <div class="status-card">
+        <div><strong>Active Model:</strong> <span class="model-badge">Engine #1 Ready</span></div>
+        <p style="font-size: 12px; color: var(--subtext-color); margin-top: 8px;">
+            Auto-Switching System: 80 AI models active for unlimited video creation.
+        </p>
+    </div>
+
     <script>
-        function startVoiceInput() {
-            const promptInput = document.getElementById('promptInput');
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert("Voice input is best supported in mobile Chrome/Edge apps.");
-                return;
+        function startDictation() {
+            if (window.hasOwnProperty('webkitSpeechRecognition')) {
+                var recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = "hi-IN";
+                recognition.start();
+                recognition.onresult = function(e) {
+                    document.getElementById('prompt').value += e.results[0][0].transcript;
+                    recognition.stop();
+                };
+            } else {
+                alert("आपके ब्राउज़र/फोन में वॉइस टाइपिंग सपोर्ट नहीं है।");
             }
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'en-US';
-            recognition.onstart = () => { promptInput.placeholder = "Listening to your voice prompt..."; };
-            recognition.onresult = (event) => {
-                promptInput.value = event.results[0][0].transcript;
-                promptInput.placeholder = "Enter Cinematic Prompt";
-            };
-            recognition.onerror = () => { alert("Microphone access error. Please type or retry."); };
-            recognition.start();
         }
-
-        function generateCinematicPipeline() {
-            const prompt = document.getElementById('promptInput').value;
-            const engine = document.getElementById('engineSelect').value;
-            const format = document.getElementById('formatSelect').value;
-            const style = document.getElementById('styleSelect').value;
-            const faceSwap = document.getElementById('faceSwapToggle').checked;
-            const autoChain = document.getElementById('autoChainToggle').checked;
-
-            const outputBox = document.getElementById('outputBox');
-            const statusText = document.getElementById('statusText');
-            const indicator = document.getElementById('progressIndicator');
-
-            outputBox.classList.remove('hidden');
-            statusText.innerHTML = `<div>[00:00] Initializing ${engine} for format ${format}...</div>`;
-
-            setTimeout(() => {
-                statusText.innerHTML += `<div>[00:02] Style Applied: ${style} | Face Swapping: ${faceSwap ? 'Active (Target Locked)' : 'Off'}</div>`;
-            }, 1000);
-
-            setTimeout(() => {
-                statusText.innerHTML += `<div>[00:05] Clip 1 (0-5s) rendered successfully. ${autoChain ? 'Passing context to next model for chain sequence...' : ''}</div>`;
-            }, 2200);
-
-            setTimeout(() => {
-                statusText.innerHTML += `<div class="text-emerald-400 font-bold">[00:08] 🎬 30-min Web Series Episode pipeline active. Auto-scheduler synchronized for Facebook/YouTube!</div>`;
-                indicator.innerText = "Completed Live";
-                indicator.className = "text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full";
-            }, 3500);
-        }
-    </script>
-    </script>
-    <!-- CINE AI Studio Automated Background Pipeline Integration -->
-    <script>
-        console.log("CINE AI Studio Auto-Pipeline Initialized for Zero-Cost 4K/8K Series Generation.");
     </script>
 </body>
 </html>
