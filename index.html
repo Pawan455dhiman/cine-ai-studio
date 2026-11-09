@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine AI Studio - Ultimate Cinematic Engine</title>
+    <title>Cine AI Studio - Ultimate Motion Video Engine</title>
     <style>
         body {
             background-color: #0b0f19;
@@ -73,21 +73,22 @@
         }
         #media-output {
             margin: 20px 0;
-            padding: 10px;
+            padding: 15px;
             background: #0d1117;
             border-radius: 8px;
             border: 1px solid #30363d;
-            min-height: 220px;
+            min-height: 280px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-        #media-output img {
+        /* सिनेमैटिक मोशन वीडियो कैनवास */
+        #cineCanvas {
             max-width: 100%;
-            max-height: 350px;
             border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.7);
+            background: #000;
         }
         #log {
             text-align: left;
@@ -106,22 +107,24 @@
 <body>
 
     <div class="container">
-        <h2>🎬 Cine AI Studio (Ultimate Cinematic Engine)</h2>
-        <p id="current-status">Ready to render long-form cinematic scenes & visuals</p>
+        <h2>🎬 Cine AI Studio (Motion Video Engine)</h2>
+        <p id="current-status">Ready to render long-form cinematic scenes & motion video</p>
         
         <textarea id="promptInput" placeholder="वेब सीरीज़ का प्रॉम्प्ट लिखें (जैसे: Epic Arabian queen battling a blue jinn, cinematic lighting, 4K)..."></textarea>
-        <button onclick="startUltimatePipeline()">🔥 धमाकेदार सिनेमैटिक रेंडर शुरू करें</button>
+        <button onclick="startUltimatePipeline()">🔥 धमाकेदार सिनेमैटिक वीडियो रेंडर शुरू करें</button>
 
         <div id="progress-bar">
             <div id="progress"></div>
         </div>
 
-        <!-- लाइव विजुअल प्लेयर बॉक्स -->
+        <!-- लाइव वीडियो एनीमेशन प्लेयर -->
         <div id="media-output">
-            <p style="color: #8b949e; margin: 0;">यहाँ आपका लाइव सिनेमैटिक विजुअल रेंडर होकर दिखेगा...</p>
+            <p id="placeholder-text" style="color: #8b949e; margin: 0;">यहाँ आपका लाइव सिनेमैटिक मोशन वीडियो रेंडर होकर प्ले होगा...</p>
+            <canvas id="cineCanvas" width="960" height="540" style="display:none;"></canvas>
+            <div id="download-box" style="margin-top: 12px;"></div>
         </div>
 
-        <div style="text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Live Engine Rotation & Visual Log:</div>
+        <div style="text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Live Engine Rotation & Render Log:</div>
         <div id="log"></div>
     </div>
 
@@ -129,6 +132,7 @@
         let currentEngine = 1;
         const totalEngines = 80; // 80 मॉडल्स का ऑटो-रोटेशन पूल
         const totalScenes = 10;  // 10 सीन्स की लंबी सीरीज़ पाइपलाइन
+        let animationId = null;
 
         function logMessage(msg) {
             const logDiv = document.getElementById('log');
@@ -144,16 +148,48 @@
             }
             document.getElementById('log').innerHTML = "";
             document.getElementById('progress').style.width = "2%";
-            document.getElementById('media-output').innerHTML = `<p style="color: #58a6ff;">सिनेमैटिक विजुअल्स तैयार हो रहे हैं...</p>`;
-            logMessage("अल्टीमेट सिनेमैटिक पाइपलाइन शुरू हो रही है...");
+            document.getElementById('placeholder-text').style.display = "none";
+            document.getElementById('cineCanvas').style.display = "block";
+            logMessage("अल्टीमेट सिनेमैटिक मोशन वीडियो पाइपलाइन शुरू हो रही है...");
             renderScene(1, promptText);
+        }
+
+        function playMotionVideo(imgObj, sceneNum) {
+            const canvas = document.getElementById('cineCanvas');
+            const ctx = canvas.getContext('2d');
+            let scale = 1.0;
+            let step = 0.0015;
+
+            if (animationId) cancelAnimationFrame(animationId);
+
+            function animate() {
+                scale += step;
+                if (scale > 1.15 || scale < 1.0) step = -step;
+
+                ctx.save();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.scale(scale, scale);
+                ctx.drawImage(imgObj, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+                ctx.restore();
+
+                // सिनेमैटिक सीन टाइटल ओवरले
+                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+                ctx.fillRect(20, 20, 240, 40);
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 18px Arial";
+                ctx.fillText(`🎬 SCENE PART #${sceneNum}`, 35, 46);
+
+                animationId = requestAnimationFrame(animate);
+            }
+            animate();
         }
 
         function renderScene(sceneNum, basePrompt) {
             if (sceneNum > totalScenes) {
-                logMessage("=== 🎉 पूरी वेब सीरीज़ का सिनेमैटिक सीक्वेंस और विजुअल्स सफलतापूर्वक तैयार हो गए हैं! ===");
+                logMessage("=== 🎉 पूरी वेब सीरीज़ का मोशन वीडियो सीक्वेंस सफलतापूर्वक तैयार हो गया है! ===");
                 document.getElementById('progress').style.width = "100%";
-                document.getElementById('current-status').innerText = "Ultimate Series Render Complete!";
+                document.getElementById('current-status').innerText = "Ultimate Series Motion Render Complete!";
                 return;
             }
 
@@ -163,7 +199,7 @@
             
             logMessage(`▶️ Scene ${sceneNum} की कोशिश जारी है: Engine #${currentEngine}...`);
 
-            const scenePrompt = `${basePrompt} - Scene Part ${sceneNum} of ${totalScenes}, Cinematic blockbuster style, highly detailed`;
+            const scenePrompt = `${basePrompt} - Scene Part ${sceneNum} of ${totalScenes}, Cinematic motion film style, highly detailed 8K`;
             const encoded = encodeURIComponent(scenePrompt);
 
             // API कॉल with current engine rotation
@@ -177,20 +213,27 @@
                 .then(data => {
                     logMessage(`✅ सफलता! Scene ${sceneNum} को Engine #${currentEngine} ने प्रोसेस कर दिया।`);
                     
-                    // स्क्रीन पर लाइव सिनेमैटिक विजुअल रेंडर करना
-                    const mediaBox = document.getElementById('media-output');
                     const imageUrl = `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${currentEngine * sceneNum}&nologo=true`;
                     
-                    mediaBox.innerHTML = `
-                        <p style="color: #3fb950; font-weight: bold; margin-bottom: 8px;">✨ Scene ${sceneNum} Visual Rendered (Engine #${currentEngine})</p>
-                        <img id="sceneImg_${sceneNum}" src="${imageUrl}" alt="Scene ${sceneNum} Visual" crossorigin="anonymous">
-                        <button onclick="downloadImage('${imageUrl}', 'Scene_${sceneNum}.jpg')" style="margin-top: 12px; width: auto; padding: 8px 18px; background: #238636; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📥 Download Scene ${sceneNum} Frame</button>
-                    `;
+                    const img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.src = imageUrl;
+                    img.onload = function() {
+                        // लाइव मोशन एनीमेशन स्टार्ट करें
+                        playMotionVideo(img, sceneNum);
 
-                    // अगले सीन पर ऑटोमैटिक आगे बढ़ना
-                    setTimeout(() => {
-                        renderScene(sceneNum + 1, basePrompt);
-                    }, 800);
+                        // डाउनलोड बटन अपडेट करें
+                        const downloadBox = document.getElementById('download-box');
+                        downloadBox.innerHTML = `
+                            <p style="color: #3fb950; font-weight: bold; margin-bottom: 6px;">✨ Scene ${sceneNum} Motion Video Ready!</p>
+                            <button onclick="downloadMedia('${imageUrl}', 'Scene_${sceneNum}_Cinematic.jpg')" style="width: auto; padding: 8px 18px; background: #238636; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📥 Download Scene ${sceneNum} Media File</button>
+                        `;
+
+                        // अगले सीन पर ऑटोमैटिक बढ़ना
+                        setTimeout(() => {
+                            renderScene(sceneNum + 1, basePrompt);
+                        }, 2500);
+                    };
                 })
                 .catch(error => {
                     // **ऑटोमैटिक फेलओवर लूप:** जैसे ही लिमिट खत्म होगी, बिना रुके तुरंत अगले इंजन पर कूद जाएगा!
@@ -208,8 +251,8 @@
                 });
         }
 
-        // डायरेक्ट सेफ डाउनलोड फंक्शन (बिना किसी लिमिट एरर के)
-        function downloadImage(url, filename) {
+        // सेफ डायरेक्ट डाउनलोड फंक्शन (Blob method)
+        function downloadMedia(url, filename) {
             fetch(url)
                 .then(response => response.blob())
                 .then(blob => {
@@ -224,7 +267,6 @@
                     document.body.removeChild(a);
                 })
                 .catch(err => {
-                    // अगर डायरेक्ट ब्लोब फेल हो, तो नए टैब में खोलकर बैकअप देगा
                     window.open(url, '_blank');
                 });
         }
