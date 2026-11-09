@@ -177,14 +177,14 @@
                 .then(data => {
                     logMessage(`✅ सफलता! Scene ${sceneNum} को Engine #${currentEngine} ने प्रोसेस कर दिया।`);
                     
-                    // स्क्रीन पर लाइव सिनेमैटिक विजुअल / इमेज फ्रेम रेंडर करना
+                    // स्क्रीन पर लाइव सिनेमैटिक विजुअल रेंडर करना
                     const mediaBox = document.getElementById('media-output');
                     const imageUrl = `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${currentEngine * sceneNum}&nologo=true`;
                     
                     mediaBox.innerHTML = `
                         <p style="color: #3fb950; font-weight: bold; margin-bottom: 8px;">✨ Scene ${sceneNum} Visual Rendered (Engine #${currentEngine})</p>
-                        <img src="${imageUrl}" alt="Scene ${sceneNum} Visual" crossorigin="anonymous">
-                        <a href="${imageUrl}" target="_blank" download="Scene_${sceneNum}.jpg" style="margin-top: 10px; background: #238636; color: white; padding: 6px 14px; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold;">📥 Download Scene ${sceneNum} Frame</a>
+                        <img id="sceneImg_${sceneNum}" src="${imageUrl}" alt="Scene ${sceneNum} Visual" crossorigin="anonymous">
+                        <button onclick="downloadImage('${imageUrl}', 'Scene_${sceneNum}.jpg')" style="margin-top: 12px; width: auto; padding: 8px 18px; background: #238636; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📥 Download Scene ${sceneNum} Frame</button>
                     `;
 
                     // अगले सीन पर ऑटोमैटिक आगे बढ़ना
@@ -205,6 +205,27 @@
                     setTimeout(() => {
                         renderScene(sceneNum, basePrompt);
                     }, 300);
+                });
+        }
+
+        // डायरेक्ट सेफ डाउनलोड फंक्शन (बिना किसी लिमिट एरर के)
+        function downloadImage(url, filename) {
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = blobUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(blobUrl);
+                    document.body.removeChild(a);
+                })
+                .catch(err => {
+                    // अगर डायरेक्ट ब्लोब फेल हो, तो नए टैब में खोलकर बैकअप देगा
+                    window.open(url, '_blank');
                 });
         }
     </script>
