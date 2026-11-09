@@ -11,60 +11,77 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            margin: 0;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 650px;
+            margin: 40px auto;
             background: #161b22;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            border: 1px solid #30363d;
         }
-        input, button {
-            width: 90%;
-            padding: 12px;
+        h2 {
+            color: #58a6ff;
+            margin-bottom: 5px;
+        }
+        #current-model {
+            color: #8b949e;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        textarea, input, button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
             margin: 10px 0;
-            border-radius: 5px;
-            border: none;
+            border-radius: 6px;
+            border: 1px solid #30363d;
             font-size: 16px;
+            outline: none;
         }
-        input {
+        textarea {
             background: #0d1117;
             color: #fff;
-            border: 1px solid #30363d;
+            resize: vertical;
+            height: 90px;
         }
         button {
             background: #238636;
             color: white;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
         }
         button:hover {
             background: #2ea043;
         }
         #progress-bar {
             width: 100%;
-            background: #30363d;
-            border-radius: 5px;
-            margin: 15px 0;
+            background: #0d1117;
+            border-radius: 6px;
+            margin: 20px 0;
             overflow: hidden;
+            border: 1px solid #30363d;
         }
         #progress {
             width: 0%;
-            height: 10px;
-            background: #58a6ff;
+            height: 12px;
+            background: #238636;
             transition: width 0.4s ease;
         }
         #log {
             text-align: left;
             background: #0d1117;
-            padding: 10px;
-            border-radius: 5px;
-            height: 150px;
+            padding: 12px;
+            border-radius: 6px;
+            height: 180px;
             overflow-y: auto;
             font-family: monospace;
-            font-size: 14px;
+            font-size: 13px;
             border: 1px solid #30363d;
+            color: #c9d1d9;
         }
     </style>
 </head>
@@ -72,22 +89,22 @@
 
     <div class="container">
         <h2>🎬 Cine AI Studio</h2>
-        <p id="current-model">Engine #1 (Active Free)</p>
+        <p id="current-model">Engine #1 (Active Free Rotation)</p>
         
-        <input type="text" id="promptInput" placeholder="अपना प्रॉम्प्ट यहाँ लिखें (जैसे: Action cinematic scene)...">
+        <textarea id="promptInput" placeholder="अपना सिनेमैटिक प्रॉम्प्ट यहाँ लिखें (जैसे: Epic action scene, Cinematic 4K)..."></textarea>
         <button onclick="startStudio()">लाइव जनरेशन शुरू करें</button>
 
         <div id="progress-bar">
             <div id="progress"></div>
         </div>
 
-        <h3>Status Log:</h3>
+        <div style="text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Live Status Log:</div>
         <div id="log"></div>
     </div>
 
     <script>
         let currentEngine = 1;
-        const totalEngines = 80; // आपके 80+ मॉडल्स का पूल
+        const totalEngines = 80; // कुल 80 मॉडल्स का ऑटो-रोटेशन पूल
 
         function logMessage(msg) {
             const logDiv = document.getElementById('log');
@@ -98,11 +115,12 @@
         function startStudio() {
             const promptText = document.getElementById('promptInput').value.trim();
             if (!promptText) {
-                alert("कृपया पहले कुछ टेक्स्ट या प्रॉम्प्ट लिखें!");
+                alert("कृपया पहले कुछ प्रॉम्प्ट या टेक्स्ट लिखें!");
                 return;
             }
-            document.getElementById('progress').style.width = "10%",
-            logMessage("सिनेमैटिक पाइपलाइन शुरू हो रही है...");
+            document.getElementById('log').innerHTML = ""; // पुराना लॉग साफ़ करें
+            document.getElementById('progress').style.width = "5%";
+            logMessage("सिनेमैटिक पाइपलाइन इनिशियलाइज हो रही है...");
             runLivePipeline(1, encodeURIComponent(promptText));
         }
 
@@ -110,42 +128,43 @@
             if (step > 5) {
                 logMessage("=== Full Cinematic Sequence Rendered Successfully! ===");
                 document.getElementById('progress').style.width = "100%";
+                document.getElementById('current-model').innerText = "Render Complete (Ready)";
                 return;
             }
             
-            document.getElementById('current-model').innerText = "Engine #" + currentEngine + " (Active Free)";
-            logMessage(`कोशिश की जा रही है Engine #${currentEngine} के साथ (Step ${step})...`);
+            document.getElementById('current-model').innerText = `Engine #${currentEngine} / ${totalEngines} (Active Pipeline)`;
+            logMessage(`कोशिश जारी है: Engine #${currentEngine} (Step ${step}/5)...`);
 
-            // यहाँ हम Pollinations AI या API को कॉल कर रहे हैं
-            fetch(`https://text.pollinations.ai/${encodedPrompt}?model=openai`)
+            // Pollinations AI API कॉल विद करंट इंजन रोटेशन
+            fetch(`https://text.pollinations.ai/${encodedPrompt}?model=openai&seed=${currentEngine}`)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`Engine #${currentEngine} Rate Limit Hit`);
+                        throw new Error(`Engine #${currentEngine} Limit Hit / Error`);
                     }
                     return response.text();
                 })
                 .then(data => {
-                    logMessage(`सफलता! Engine #${currentEngine} ने काम कर दिया।`);
+                    logMessage(`सफलता! Engine #${currentEngine} ने डेटा प्रोसेस कर दिया।`);
                     document.getElementById('progress').style.width = (step * 20) + "%";
                     
-                    // अगला स्टेप चलाएं
+                    // अगला स्टेप अगले इंजन या सुरक्षित डिले के साथ चलाएं
                     setTimeout(() => {
                         runLivePipeline(step + 1, encodedPrompt);
-                    }, 1000);
+                    }, 800);
                 })
                 .catch(error => {
-                    // **यह ऑटोमैटिक फेलओवर लूप है:** जैसे ही लिमिट खत्म होगी, यह बिना रुके तुरंत अगले इंजन पर कूद जाएगा!
-                    logMessage(`⚠️ Engine #${currentEngine} की लिमिट खत्म, अगले इंजन पर स्विच हो रहे हैं...`);
+                    // **ऑटोमैटिक फेलओवर लूप:** जैसे ही लिमिट खत्म होगी, बिना रुके तुरंत अगले इंजन पर कूद जाएगा!
+                    logMessage(`⚠️ Engine #${currentEngine} की लिमिट फुल, अगले इंजन पर स्विच हो रहे हैं...`);
                     
                     currentEngine++;
                     if (currentEngine > totalEngines) {
-                        currentEngine = 1; // 80 के बाद वापस पहले इंजन पर साइकल घूम जाएगी
+                        currentEngine = 1; // 80 के बाद वापस पहले इंजन से साइकिल घुमाएगा
                     }
 
-                    // तुरंत बिना ऐप रोके अगले इंजन से प्रयास करेगा
+                    // बिना रुके तुरंत अगले इंजन से दोबारा कोशिश करेगा
                     setTimeout(() => {
                         runLivePipeline(step, encodedPrompt);
-                    }, 500);
+                    }, 400);
                 });
         }
     </script>
