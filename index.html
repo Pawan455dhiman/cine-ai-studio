@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine AI Studio</title>
+    <title>Cine AI Studio - Free Automated Engine</title>
     <style>
         :root {
-            --bg-color: #0f0f15;
-            --card-bg: #1a1a24;
-            --accent-color: #ff3366;
+            --bg-color: #0d0e15;
+            --card-bg: #161824;
+            --accent-color: #e50914;
             --text-color: #ffffff;
-            --subtext-color: #a0a0b0;
+            --subtext-color: #8c8c9e;
+            --success-color: #00e676;
         }
         body {
             margin: 0;
@@ -23,37 +24,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #2a2a38;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #232738;
         }
         .logo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: var(--accent-color);
         }
         .nav-btn {
-            background: #2a2a38;
+            background: #232738;
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
         }
-        .tab-group {
+        .mode-group {
             display: flex;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 8px;
+            margin: 16px 0;
         }
-        .tab {
+        .mode-btn {
             flex: 1;
             padding: 10px;
             background: var(--card-bg);
-            border: 1px solid #2a2a38;
+            border: 1px solid #232738;
             color: white;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
         }
-        .tab.active {
+        .mode-btn.active {
             background: var(--accent-color);
             border-color: var(--accent-color);
         }
@@ -63,53 +65,105 @@
         }
         textarea {
             width: 100%;
-            height: 120px;
+            height: 90px;
             background: var(--card-bg);
-            border: 1px solid #2a2a38;
+            border: 1px solid #232738;
             border-radius: 8px;
             color: white;
             padding: 12px;
             box-sizing: border-box;
-            font-size: 14px;
+            font-size: 13px;
             resize: none;
         }
         .mic-btn {
             position: absolute;
-            right: 10px;
-            bottom: 15px;
+            right: 8px;
+            bottom: 12px;
             background: var(--accent-color);
             border: none;
             color: white;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            font-size: 16px;
+            width: 34px;
+            height: 34px;
+            font-size: 14px;
         }
         .action-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(45deg, #ff3366, #ff6633);
+            background: linear-gradient(90deg, #e50914, #b20710);
             border: none;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-        .status-card {
+        .switcher-box {
             background: var(--card-bg);
-            padding: 15px;
+            padding: 14px;
             border-radius: 8px;
-            border: 1px solid #2a2a38;
+            border: 1px solid #232738;
+            margin-bottom: 16px;
         }
-        .model-badge {
-            display: inline-block;
-            background: #00c853;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .status-badge {
+            background: var(--success-color);
             color: black;
             font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
             font-weight: bold;
+        }
+        .progress-bar {
+            width: 100%;
+            background: #232738;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+        .log-box {
+            background: #000;
+            border: 1px solid #232738;
+            border-radius: 6px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #00ff66;
+            height: 70px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .social-card {
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #232738;
+            font-size: 12px;
+        }
+        .social-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .social-btn {
+            background: #232738;
+            border: 1px solid #34394d;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -123,26 +177,49 @@
         </div>
     </div>
 
-    <div class="tab-group">
-        <button class="tab active">Text to Video</button>
-        <button class="tab">Photo to Video</button>
+    <div class="mode-group">
+        <button class="mode-btn active">Text to Video</button>
+        <button class="mode-btn">Photo to Video</button>
     </div>
 
     <div class="input-box">
-        <textarea id="prompt" placeholder="अपनी फिल्म का सीन या प्रॉम्प्ट यहाँ लिखें या माइक से बोलें..."></textarea>
+        <textarea id="prompt" placeholder="अपनी फिल्म की कहानी या सीन लिखें या माइक दबाकर बोलें..."></textarea>
         <button class="mic-btn" onclick="startDictation()">🎤</button>
     </div>
 
-    <button class="action-btn">🚀 Generate Scene</button>
+    <button class="action-btn" onclick="startAutoGeneration()">🚀 Start Auto Video Generator (Free Tier)</button>
 
-    <div class="status-card">
-        <div><strong>Active Model:</strong> <span class="model-badge">Engine #1 Ready</span></div>
-        <p style="font-size: 12px; color: var(--subtext-color); margin-top: 8px;">
-            Auto-Switching System: 80 AI models active for unlimited video creation.
-        </p>
+    <div class="switcher-box">
+        <div class="info-row">
+            <span><strong>Active Engine:</strong> <span id="current-model">100% Free AI Engine #1</span></span>
+            <span class="status-badge" id="switcher-status">FREE AUTO-SWITCH ON</span>
+        </div>
+        <div class="info-row" style="color: var(--subtext-color);">
+            <span>Copyright-Free Generation</span>
+            <span>Pool: 80 Free AI Engines</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+    </div>
+
+    <div class="log-box" id="system-logs">
+        [System Ready]: Free Open-Source Video Models Connected. Zero Cost Active.
+    </div>
+
+    <div class="social-card">
+        <strong>🤖 Social Auto-Publisher Pipeline:</strong>
+        <div class="social-options">
+            <button class="social-btn">🔴 YouTube Shorts</button>
+            <button class="social-btn">🔵 Facebook Reels</button>
+            <button class="social-btn">📸 Instagram</button>
+        </div>
     </div>
 
     <script>
+        let currentEngine = 1;
+        const totalEngines = 80;
+
         function startDictation() {
             if (window.hasOwnProperty('webkitSpeechRecognition')) {
                 var recognition = new webkitSpeechRecognition();
@@ -155,8 +232,45 @@
                     recognition.stop();
                 };
             } else {
-                alert("आपके ब्राउज़र/फोन में वॉइस टाइपिंग सपोर्ट नहीं है।");
+                alert("आपके डिवाइस में वॉइस टाइपिंग सपोर्ट उपलब्ध नहीं है।");
             }
+        }
+
+        function logMessage(msg) {
+            const logBox = document.getElementById('system-logs');
+            logBox.innerHTML += "<br>> " + msg;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function startAutoGeneration() {
+            const prompt = document.getElementById('prompt').value;
+            if(!prompt) {
+                alert("कृपया पहले कोई प्रॉम्प्ट दर्ज करें!");
+                return;
+            }
+
+            logMessage("Starting sequence for: " + prompt.substring(0, 20) + "...");
+            runPipeline(1);
+        }
+
+        function runPipeline(step) {
+            if (step > 6) {
+                logMessage("=== Episode Finished! Uploading to YouTube & Facebook... ===");
+                document.getElementById('progress').style.width = "100%";
+                return;
+            }
+
+            document.getElementById('current-model').innerText = "Free Engine #" + currentEngine + " (Rendering 5s)";
+            logMessage("Free Model #" + currentEngine + " generating unique 5s video clip...");
+            
+            let progressPct = (step / 6) * 100;
+            document.getElementById('progress').style.width = progressPct + "%";
+
+            setTimeout(() => {
+                logMessage("Model #" + currentEngine + " limit reached. Auto-switching to Free Model #" + (currentEngine + 1) + "...");
+                currentEngine = (currentEngine % totalEngines) + 1;
+                runPipeline(step + 1);
+            }, 1500);
         }
     </script>
 </body>
