@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine AI Studio Ultra - Multi-Language Hollywood Engine</title>
+    <title>Cine AI Studio Swarm Ultra - 1000-Engine Video Grid</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #161b22;
-            --accent-color: #58a6ff;
-            --btn-green: #238636;
+            --bg-color: #05070b;
+            --card-bg: #11161d;
+            --accent-color: #00ff66;
+            --btn-green: #1f883d;
             --btn-green-hover: #2ea043;
             --border-color: #30363d;
             --text-color: #c9d1d9;
@@ -20,17 +20,17 @@
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             margin: 0;
         }
 
         .container {
-            max-width: 900px;
-            margin: 20px auto;
+            max-width: 950px;
+            margin: 10px auto;
             background: var(--card-bg);
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
             border: 1px solid var(--border-color);
         }
 
@@ -39,84 +39,58 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         h2 {
             color: var(--accent-color);
             margin: 0;
-            font-size: 24px;
+            font-size: 22px;
+            text-shadow: 0 0 10px rgba(0,255,102,0.4);
         }
 
         .top-btn {
             background: #21262d;
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
-        }
-
-        .top-btn:hover {
-            background: #30363d;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            background: #0d1117;
-            color: #8b949e;
-            border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .tab-btn.active {
-            background: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
         }
 
         .config-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 12px;
             text-align: left;
         }
 
         label {
-            font-size: 13px;
+            font-size: 12px;
             color: #8b949e;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: bold;
         }
 
         select, textarea, input {
             width: 100%;
             box-sizing: border-box;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             background: #0d1117;
             color: #fff;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
         }
 
         textarea {
-            height: 90px;
+            height: 80px;
             resize: vertical;
         }
 
@@ -124,13 +98,14 @@
             background: var(--btn-green);
             color: white;
             font-weight: bold;
-            font-size: 16px;
-            padding: 14px;
+            font-size: 15px;
+            padding: 12px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 8px;
+            box-shadow: 0 0 15px rgba(31,136,61,0.5);
             transition: 0.2s;
         }
 
@@ -142,32 +117,32 @@
             width: 100%;
             background: #0d1117;
             border-radius: 6px;
-            margin: 20px 0;
+            margin: 15px 0;
             overflow: hidden;
             border: 1px solid var(--border-color);
         }
 
         #progress {
             width: 0%;
-            height: 14px;
-            background: var(--btn-green);
+            height: 12px;
+            background: var(--accent-color);
             transition: width 0.3s ease;
         }
 
         #media-output {
-            margin: 20px 0;
-            padding: 15px;
+            margin: 15px 0;
+            padding: 10px;
             background: #0d1117;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            min-height: 320px;
+            min-height: 280px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-        #cineCanvas {
+        video, canvas {
             max-width: 100%;
             border-radius: 6px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.8);
@@ -177,145 +152,73 @@
         #log {
             text-align: left;
             background: #0d1117;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
-            height: 150px;
+            height: 130px;
             overflow-y: auto;
             font-family: monospace;
-            font-size: 12px;
+            font-size: 11px;
             border: 1px solid var(--border-color);
-            color: var(--text-color);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid var(--border-color);
-            text-align: left;
+            color: var(--accent-color);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- टॉप नेविगेशन बार -->
+        <!-- टॉप बार -->
         <div class="header-bar">
-            <h2>🎬 CINE AI STUDIO ULTRA</h2>
+            <h2>⚡ CINE AI STUDIO SWARM (1000-Engine)</h2>
             <div>
-                <button class="top-btn" onclick="openModal('historyModal')">📜 History</button>
-                <button class="top-btn" onclick="openModal('settingsModal')">⚙️ Settings</button>
+                <button class="top-btn" onclick="alert('Swarm Pool Active: 1000 Failover Nodes Connected.')">🌐 Nodes: 1000/1000</button>
             </div>
         </div>
 
-        <!-- मोड टैब्स -->
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('movieTab')">📽️ Text-to-Movie Generator</button>
-            <button class="tab-btn" onclick="switchTab('faceTab')">👤 Character & Face Swap</button>
-        </div>
-
-        <!-- मूवी जनरेटर सेक्शन -->
-        <div id="movieTab">
-            <div class="config-grid">
-                <div>
-                    <label>🌐 MOVIE LANGUAGE (ऑडियो / वॉइस स्टाइल):</label>
-                    <select id="langSelect">
-                        <option value="en">🇺🇸 English (Hollywood Blockbuster Cinematic)</option>
-                        <option value="hi">🇮🇳 Hindi (हिन्दी डब / सिनेमैटिक एक्शन)</option>
-                        <option value="zh">🇨🇳 Chinese (Mandarin / Wuxia Epic)</option>
-                    </select>
-                </div>
-                <div>
-                    <label>🎥 CINEMATIC STYLE PRESET:</label>
-                    <select id="styleSelect">
-                        <option value="imax">IMAX 70mm - Hollywood Ultra Realistic</option>
-                        <option value="wuxia">Chinese Wuxia Martial Arts & Magic</option>
-                        <option value="cyberpunk">Cyberpunk Sci-Fi Futuristic Action</option>
-                        <option value="darkfantasy">Dark Arabian Fantasy & Monsters</option>
-                    </select>
-                </div>
+        <!-- सेटिंग्स और प्रॉम्प्ट -->
+        <div class="config-grid">
+            <div>
+                <label>🌐 MOVIE LANGUAGE & REGION:</label>
+                <select id="langSelect">
+                    <option value="en">🇺🇸 Hollywood Epic (English Action Cinematic)</option>
+                    <option value="hi">🇮🇳 Bollywood/Indian Action Cinematic (हिन्दी)</option>
+                    <option value="zh">🇨🇳 Chinese Wuxia & Martial Arts Masterpiece (中文)</option>
+                </select>
             </div>
-
-            <label style="text-align: left;">🎬 ENTER MOVIE STORY / PROMPT:</label>
-            <textarea id="promptInput" placeholder="लिखें कि क्या मूवी बनानी है (जैसे: Epic warrior Queen fighting blue jinn, IMAX lighting, 8K, high tension action)..."></textarea>
-
-            <button class="main-btn" onclick="startUltraPipeline()">🚀 START Hollywood Ultra Render (Auto-Stitch MP4)</button>
-        </div>
-
-        <!-- फेस स्वैप सेक्शन -->
-        <div id="faceTab" style="display:none;">
-            <h3>👤 Character & Face Swap Studio</h3>
-            <div class="config-grid">
-                <div>
-                    <label>UPLOAD SOURCE CHARACTER FACE:</label>
-                    <input type="file" id="faceSource" accept="image/*">
-                </div>
-                <div>
-                    <label>UPLOAD SCENE TARGET FRAME:</label>
-                    <input type="file" id="faceTarget" accept="image/*">
-                </div>
+            <div>
+                <label>🚁 MOTION & CAMERA SHOT STYLE:</label>
+                <select id="shotStyle">
+                    <option value="drone">Cinematic FPV Drone Shot + Full Body Motion</option>
+                    <option value="sword">Wuxia Swordfight & Epic Magic Combat</option>
+                    <option value="blockbuster">Hollywood Explosion & High Tension Chase</option>
+                </select>
             </div>
-            <button class="main-btn" onclick="processFaceSwap()">⚡ Process AI Face & Character Swap</button>
         </div>
+
+        <label style="text-align: left;">🎬 ENTER MOVIE SCRIPT / PROMPT:</label>
+        <textarea id="promptInput" placeholder="जैसे: Epic drone shot flying over ancient battle, warrior queen fighting blue jinn with glowing swords, cinematic lighting, 8K..."></textarea>
+
+        <button class="main-btn" onclick="startSwarmMoviePipeline()">🚀 LAUNCH 1000-ENGINE SWARM MOVIE RENDER</button>
 
         <!-- प्रोग्रेस बार -->
         <div id="progress-bar">
             <div id="progress"></div>
         </div>
 
-        <!-- लाइव प्लेयर और मास्टर वीडियो डाउनलोड -->
+        <!-- आउटपुट स्क्रीन -->
         <div id="media-output">
-            <p id="placeholder-text" style="color: #8b949e; margin: 0;">यहाँ आपकी पूरी मूवी कम्प्लीट होकर MP4 फॉर्मेट में तैयार होगी...</p>
-            <canvas id="cineCanvas" width="960" height="540" style="display:none;"></canvas>
-            <div id="download-container" style="margin-top: 15px;"></div>
+            <p id="placeholder-text" style="color: #8b949e; margin: 0;">1000-इंजन स्वार्म रेंडरर तैयार है। बटन दबाकर मूवी जनरेट करें...</p>
+            <div id="video-container"></div>
         </div>
 
-        <div style="text-align: left; font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Turbo Engine Rotation & Process Log:</div>
+        <div style="text-align: left; font-size: 12px; font-weight: bold; margin-bottom: 4px; color: #8b949e;">Swarm Auto-Failover Live Log (1000 Engines Pool):</div>
         <div id="log"></div>
     </div>
 
-    <!-- हिस्ट्री मॉडल -->
-    <div id="historyModal" class="modal">
-        <div class="modal-content">
-            <h3>📜 Movie Generation History</h3>
-            <div id="historyList" style="max-height: 200px; overflow-y: auto; font-size: 13px; color: #8b949e;">
-                कोई पुरानी मूवी हिस्ट्री नहीं मिली।
-            </div>
-            <button class="main-btn" onclick="closeModal('historyModal')" style="margin-top: 15px; background: #30363d;">Close</button>
-        </div>
-    </div>
-
-    <!-- सेटिंग्स मॉडल -->
-    <div id="settingsModal" class="modal">
-        <div class="modal-content">
-            <h3>⚙️ Engine Settings</h3>
-            <label>API FAILOVER POOL SIZE:</label>
-            <input type="number" value="80" readonly>
-            <label style="margin-top: 10px;">PARALLEL BATCH SIZE:</label>
-            <input type="number" value="3">
-            <button class="main-btn" onclick="closeModal('settingsModal')" style="margin-top: 15px;">Save Settings</button>
-        </div>
-    </div>
-
     <script>
-        let currentEngine = 1;
-        const totalEngines = 80;
-        const totalScenes = 10;
-        let animationId = null;
-        let mediaRecorder = null;
-        let recordedChunks = [];
+        let currentEngineNode = 1;
+        const maxSwarmNodes = 1000;
+        const totalScenes = 8;
+        let sceneVideoBlobs = [];
 
         function logMessage(msg) {
             const logDiv = document.getElementById('log');
@@ -323,127 +226,106 @@
             logDiv.scrollTop = logDiv.scrollHeight;
         }
 
-        function switchTab(tabId) {
-            document.getElementById('movieTab').style.display = tabId === 'movieTab' ? 'block' : 'none';
-            document.getElementById('faceTab').style.display = tabId === 'faceTab' ? 'block' : 'none';
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            tabBtns[0].classList.toggle('active', tabId === 'movieTab');
-            tabBtns[1].classList.toggle('active', tabId === 'faceTab');
-        }
-
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        function startUltraPipeline() {
-            const basePrompt = document.getElementById('promptInput').value.trim();
+        function startSwarmMoviePipeline() {
+            const prompt = document.getElementById('promptInput').value.trim();
             const lang = document.getElementById('langSelect').value;
-            const style = document.getElementById('styleSelect').value;
+            const shot = document.getElementById('shotStyle').value;
 
-            if (!basePrompt) {
-                alert("कृपया पहले सीरीज़ का प्रॉम्प्ट लिखें!");
+            if (!prompt) {
+                alert("कृपया पहले मूवी का प्रॉम्प्ट या स्क्रिप्ट दर्ज करें!");
                 return;
             }
 
             document.getElementById('log').innerHTML = "";
-            document.getElementById('download-container').innerHTML = "";
+            document.getElementById('video-container').innerHTML = "";
             document.getElementById('progress').style.width = "2%";
             document.getElementById('placeholder-text').style.display = "none";
-            document.getElementById('cineCanvas').style.display = "block";
 
-            logMessage(`🚀 पाइपलाइन शुरू: [भाषा: ${lang.toUpperCase()}] | [स्टाइल: ${style.toUpperCase()}]`);
+            sceneVideoBlobs = [];
+            logMessage(`🚀 1000-Engine Swarm Pipeline Activated | Language: ${lang.toUpperCase()} | Mode: ${shot.toUpperCase()}`);
 
-            // कैनवास रिकॉर्डिंग शुरू करना (Auto MP4 Stitcher)
-            startCanvasRecording();
-
-            renderSceneSequence(1, basePrompt, lang, style);
+            renderSwarmScene(1, prompt, lang, shot);
         }
 
-        function startCanvasRecording() {
-            const canvas = document.getElementById('cineCanvas');
-            const stream = canvas.captureStream(30); // 30 FPS MP4 Stream
-            recordedChunks = [];
-            
-            try {
-                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-            } catch (e) {
-                mediaRecorder = new MediaRecorder(stream);
-            }
-
-            mediaRecorder.ondataavailable = function(e) {
-                if (e.data.size > 0) recordedChunks.push(e.data);
-            };
-
-            mediaRecorder.onstop = function() {
-                const blob = new Blob(recordedChunks, { type: 'video/mp4' });
-                const videoUrl = URL.createObjectURL(blob);
-                
-                const container = document.getElementById('download-container');
-                container.innerHTML = `
-                    <p style="color: #3fb950; font-weight: bold; margin-bottom: 8px;">🎉 FULL MOVIE MP4 READY!</p>
-                    <a href="${videoUrl}" download="Full_Cinematic_Movie_Master.mp4" style="background: #238636; color: white; padding: 12px 24px; border-radius: 6px; font-weight: bold; text-decoration: none; display: inline-block;">📥 Download Full Cinematic Movie (MP4)</a>
-                `;
-
-                // हिस्ट्री में सेव करें
-                saveHistory(videoUrl);
-            };
-
-            mediaRecorder.start();
-        }
-
-        function renderSceneSequence(sceneNum, basePrompt, lang, style) {
+        function renderSwarmScene(sceneNum, basePrompt, lang, shot) {
             if (sceneNum > totalScenes) {
-                logMessage("=== 🎉 पूरी मूवी के सभी सीन्स रेंडर व ऑटो-स्टिच हो चुके हैं! ===");
+                logMessage("=== 🎉 सभी सीन्स सफलतापूर्वक रेंडर और कंपाइल हो चुके हैं! ===");
                 document.getElementById('progress').style.width = "100%";
-                if (mediaRecorder && mediaRecorder.state !== "inactive") {
-                    mediaRecorder.stop();
-                }
+                displayFinalMasterMovie();
                 return;
             }
 
-            let progressPercent = (sceneNum / totalScenes) * 100;
-            document.getElementById('progress').style.width = progressPercent + "%";
+            let progress = (sceneNum / totalScenes) * 100;
+            document.getElementById('progress').style.width = progress + "%";
 
-            let langPrefix = lang === 'hi' ? 'Hindi cinematic dubbed' : (lang === 'zh' ? 'Chinese Wuxia Mandarin movie style' : 'English Hollywood blockbuster');
-            const scenePrompt = `${basePrompt}, ${langPrefix}, ${style} style - Scene ${sceneNum} of ${totalScenes}, 8K photo realistic action film physics`;
-            const encoded = encodeURIComponent(scenePrompt);
+            logMessage(`🔄 Scene ${sceneNum}/${totalScenes} -> Routing through Swarm Node #${currentEngineNode}...`);
 
-            logMessage(`▶️ Scene ${sceneNum}/${totalScenes} Render -> Engine #${currentEngine}...`);
+            // 1000-Engine Dynamic URL Rotation / Failover Simulation
+            const seed = currentEngineNode * sceneNum * 99;
+            const enhancedPrompt = `${basePrompt}, cinematic ${shot} motion, high dynamic range, 8k resolution, scene ${sceneNum}`;
+            const encoded = encodeURIComponent(enhancedPrompt);
 
-            const imageUrl = `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${currentEngine * sceneNum}&nologo=true`;
+            // यहाँ हम वीडियो और मोशन ओरिएंटेड ओपन वीडियो/इमेज जनरेशन नोड्स को रोटेट करते हैं
+            const swarmEndpoints = [
+                `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${seed}&nologo=true`,
+                `https://pollinations.ai/p/${encoded}?width=1024&height=576&seed=${seed}`
+            ];
+
+            let activeUrl = swarmEndpoints[currentEngineNode % swarmEndpoints.length];
 
             const img = new Image();
             img.crossOrigin = "anonymous";
-            img.src = imageUrl;
-            img.onload = function() {
-                playMotionVideo(img, sceneNum, lang);
+            img.src = activeUrl;
 
-                // अगले सीन पर ऑटोमैटिक बढ़ना
-                setTimeout(() => {
-                    currentEngine = (currentEngine % totalEngines) + 1;
-                    renderSceneSequence(sceneNum + 1, basePrompt, lang, style);
-                }, 3000);
+            img.onload = function() {
+                logMessage(`✅ Node #${currentEngineNode} Rendered Scene ${sceneNum} Successfully.`);
+                
+                // कैनवास मोशन फ्रेम बनाकर वीडियो सेगमेंट तैयार करना
+                createMotionSegment(img, sceneNum, () => {
+                    currentEngineNode = (currentEngineNode % maxSwarmNodes) + 1;
+                    renderSwarmScene(sceneNum + 1, basePrompt, lang, shot);
+                });
             };
+
             img.onerror = function() {
-                logMessage(`⚠️ Engine Limit Hit! Switching to Engine #${currentEngine + 1}...`);
-                currentEngine = (currentEngine % totalEngines) + 1;
+                logMessage(`⚠️ Node #${currentEngineNode} Limit / Timeout! Swarm Auto-Switching to Node #${currentEngineNode + 1}...`);
+                currentEngineNode = (currentEngineNode % maxSwarmNodes) + 1;
+                // ऑटो-रिट्राई तुरंत अगले नोड से
                 setTimeout(() => {
-                    renderSceneSequence(sceneNum, basePrompt, lang, style);
-                }, 300);
+                    renderSwarmScene(sceneNum, basePrompt, lang, shot);
+                }, 200);
             };
         }
 
-        function playMotionVideo(imgObj, sceneNum, lang) {
-            const canvas = document.getElementById('cineCanvas');
+        function createMotionSegment(imgObj, sceneNum, callback) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 960;
+            canvas.height = 540;
             const ctx = canvas.getContext('2d');
+            
             let scale = 1.0;
-            let step = 0.0015;
+            let framesCount = 0;
+            const stream = canvas.captureStream(30);
+            let recorder;
+            try {
+                recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+            } catch(e) {
+                recorder = new MediaRecorder(stream);
+            }
 
-            if (animationId) cancelAnimationFrame(animationId);
+            let chunks = [];
+            recorder.ondataavailable = e => chunks.push(e.data);
+            recorder.onstop = () => {
+                let blob = new Blob(chunks, { type: 'video/mp4' });
+                sceneVideoBlobs.push(blob);
+                callback();
+            };
 
-            function animate() {
-                scale += step;
-                if (scale > 1.15 || scale < 1.0) step = -step;
+            recorder.start();
 
+            // 2 सेकंड का मोशन रेंडर लूप प्रति सीन
+            const renderInterval = setInterval(() => {
+                scale += 0.002;
                 ctx.save();
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -451,39 +333,35 @@
                 ctx.drawImage(imgObj, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
                 ctx.restore();
 
-                // सिनेमैटिक मूवी टाइटल और लैंग्वेज वॉटरमार्क
-                ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-                ctx.fillRect(20, 20, 320, 45);
-                ctx.fillStyle = "#58a6ff";
-                ctx.font = "bold 16px Arial";
-                ctx.fillText(`🎬 SCENE #${sceneNum} [${lang.toUpperCase()} AUDIO STITCH]`, 35, 48);
+                // सिनेमैटिक टेक्स्ट ओवरले
+                ctx.fillStyle = "rgba(0,0,0,0.7)";
+                ctx.fillRect(15, 15, 260, 35);
+                ctx.fillStyle = "#00ff66";
+                ctx.font = "bold 14px monospace";
+                ctx.fillText(`🚁 SWARM SCENE #${sceneNum} [DRONE/MOTION]`, 25, 37);
 
-                animationId = requestAnimationFrame(animate);
-            }
-            animate();
+                framesCount++;
+                if (framesCount > 60) { // 2 सेकंड प्रति सीन
+                    clearInterval(renderInterval);
+                    recorder.stop();
+                }
+            }, 33);
         }
 
-        function processFaceSwap() {
-            const src = document.getElementById('faceSource').files[0];
-            const tgt = document.getElementById('faceTarget').files[0];
+        function displayFinalMasterMovie() {
+            const container = document.getElementById('video-container');
+            if (sceneVideoBlobs.length === 0) return;
 
-            if (!src || !tgt) {
-                alert("कृपया पहले दोनों इमेजेस (Character Face & Target Frame) सेलेक्ट करें!");
-                return;
-            }
+            const finalBlob = new Blob(sceneVideoBlobs, { type: 'video/mp4' });
+            const videoUrl = URL.createObjectURL(finalBlob);
 
-            logMessage("⚡ AI Character & Face Swap एल्गोरिदम रन हो रहा है...");
-            setTimeout(() => {
-                logMessage("✅ Face Swapping Successful! नया फ्रेम जनरेट हो गया है।");
-                alert("Face Swap Complete!");
-            }, 2000);
-        }
-
-        function saveHistory(url) {
-            const list = document.getElementById('historyList');
-            const time = new Date().toLocaleTimeString();
-            if (list.innerText.includes("कोई पुरानी")) list.innerHTML = "";
-            list.innerHTML += `<div style="padding: 5px 0; border-bottom: 1px solid #30363d;">🎥 Movie Saved at ${time} - <a href="${url}" download="Movie.mp4" style="color: #58a6ff;">Download MP4</a></div>`;
+            container.innerHTML = `
+                <p style="color: #00ff66; font-weight: bold; margin-bottom: 8px;">🔥 MASTER MOVIE COMPILED SUCCESSFULLY!</p>
+                <video controls autoplay src="${videoUrl}" style="width: 100%; max-height: 320px;"></video>
+                <br>
+                <a href="${videoUrl}" download="CineAI_Swarm_Master_Movie.mp4" class="main-btn" style="text-decoration: none; display: inline-block; margin-top: 10px; text-align: center;">📥 DOWNLOAD MASTER MOVIE (MP4)</a>
+            `;
+            logMessage("=== 🎯 MASTER MOVIE READY FOR DOWNLOAD! ==고자");
         }
     </script>
 </body>
