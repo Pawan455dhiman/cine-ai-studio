@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine AI Studio - Ultimate Motion Video Engine</title>
+    <title>Cine AI Studio - Turbo Parallel Engine</title>
     <style>
         body {
             background-color: #0b0f19;
@@ -14,7 +14,7 @@
             margin: 0;
         }
         .container {
-            max-width: 750px;
+            max-width: 800px;
             margin: 20px auto;
             background: #161b22;
             padding: 25px;
@@ -69,7 +69,7 @@
             width: 0%;
             height: 12px;
             background: #238636;
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
         }
         #media-output {
             margin: 20px 0;
@@ -83,12 +83,29 @@
             align-items: center;
             justify-content: center;
         }
-        /* सिनेमैटिक मोशन वीडियो कैनवास */
         #cineCanvas {
             max-width: 100%;
             border-radius: 6px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.7);
             background: #000;
+        }
+        #downloads-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .download-btn {
+            background: #238636;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            width: auto;
         }
         #log {
             text-align: left;
@@ -107,21 +124,20 @@
 <body>
 
     <div class="container">
-        <h2>🎬 Cine AI Studio (Motion Video Engine)</h2>
-        <p id="current-status">Ready to render long-form cinematic scenes & motion video</p>
+        <h2>⚡ Cine AI Studio (Turbo Parallel Engine)</h2>
+        <p id="current-status">Ready for 10x Speed Parallel Rendering</p>
         
         <textarea id="promptInput" placeholder="वेब सीरीज़ का प्रॉम्प्ट लिखें (जैसे: Epic Arabian queen battling a blue jinn, cinematic lighting, 4K)..."></textarea>
-        <button onclick="startUltimatePipeline()">🔥 धमाकेदार सिनेमैटिक वीडियो रेंडर शुरू करें</button>
+        <button onclick="startTurboPipeline()">🚀 10x टर्बो रेंडरिंग शुरू करें</button>
 
         <div id="progress-bar">
             <div id="progress"></div>
         </div>
 
-        <!-- लाइव वीडियो एनीमेशन प्लेयर -->
         <div id="media-output">
-            <p id="placeholder-text" style="color: #8b949e; margin: 0;">यहाँ आपका लाइव सिनेमैटिक मोशन वीडियो रेंडर होकर प्ले होगा...</p>
+            <p id="placeholder-text" style="color: #8b949e; margin: 0;">यहाँ लाइव 10x सिनेमैटिक एनीमेशन प्ले होगा...</p>
             <canvas id="cineCanvas" width="960" height="540" style="display:none;"></canvas>
-            <div id="download-box" style="margin-top: 12px;"></div>
+            <div id="downloads-grid"></div>
         </div>
 
         <div style="text-align: left; font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #8b949e;">Live Engine Rotation & Render Log:</div>
@@ -130,8 +146,10 @@
 
     <script>
         let currentEngine = 1;
-        const totalEngines = 80; // 80 मॉडल्स का ऑटो-रोटेशन पूल
-        const totalScenes = 10;  // 10 सीन्स की लंबी सीरीज़ पाइपलाइन
+        const totalEngines = 80;
+        const totalScenes = 10;
+        const BATCH_SIZE = 3; // एक साथ 3 सीन्स का पैरेलल अटैक!
+        let completedScenes = 0;
         let animationId = null;
 
         function logMessage(msg) {
@@ -140,31 +158,100 @@
             logDiv.scrollTop = logDiv.scrollHeight;
         }
 
-        function startUltimatePipeline() {
+        function startTurboPipeline() {
             const promptText = document.getElementById('promptInput').value.trim();
             if (!promptText) {
                 alert("कृपया पहले सीरीज़ का प्रॉम्प्ट लिखें!");
                 return;
             }
             document.getElementById('log').innerHTML = "";
+            document.getElementById('downloads-grid').innerHTML = "";
             document.getElementById('progress').style.width = "2%";
             document.getElementById('placeholder-text').style.display = "none";
             document.getElementById('cineCanvas').style.display = "block";
-            logMessage("अल्टीमेट सिनेमैटिक मोशन वीडियो पाइपलाइन शुरू हो रही है...");
-            renderScene(1, promptText);
+            completedScenes = 0;
+            
+            logMessage("⚡ 10x टर्बो पैरेलल पाइपलाइन शुरू हो रही है...");
+            
+            // सीन्स को पैरेलल बैचेस में प्रोसेस करना
+            processBatch(1, promptText);
+        }
+
+        function processBatch(startScene, basePrompt) {
+            if (startScene > totalScenes) return;
+
+            let endScene = Math.min(startScene + BATCH_SIZE - 1, totalScenes);
+            logMessage(`🚀 [Turbo Batch] सीन्स ${startScene} से ${endScene} तक एक साथ प्रोसेस हो रहे हैं...`);
+
+            let promises = [];
+            for (let i = startScene; i <= endScene; i++) {
+                promises.push(renderSingleScene(i, basePrompt));
+            }
+
+            Promise.all(promises).then(() => {
+                if (endScene < totalScenes) {
+                    processBatch(endScene + 1, basePrompt);
+                } else {
+                    logMessage("=== 🎉 टर्बो 10x स्पीड में पूरी वेब सीरीज़ तैयार हो गई है! ===");
+                    document.getElementById('progress').style.width = "100%";
+                    document.getElementById('current-status').innerText = "10x Turbo Render Complete!";
+                }
+            });
+        }
+
+        function renderSingleScene(sceneNum, basePrompt) {
+            return new Promise((resolve) => {
+                let engineForThisScene = (currentEngine + sceneNum) % totalEngines + 1;
+                const scenePrompt = `${basePrompt} - Scene Part ${sceneNum} of ${totalScenes}, Cinematic motion film style, highly detailed 8K`;
+                const encoded = encodeURIComponent(scenePrompt);
+
+                logMessage(`▶️ Scene ${sceneNum} Turbo Request -> Engine #${engineForThisScene}...`);
+
+                fetch(`https://text.pollinations.ai/${encoded}?model=openai&seed=${engineForThisScene * sceneNum}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error("Rate Limit");
+                        return response.text();
+                    })
+                    .then(data => {
+                        logMessage(`✅ Scene ${sceneNum} Done (Engine #${engineForThisScene})`);
+                        
+                        const imageUrl = `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${engineForThisScene * sceneNum}&nologo=true`;
+                        
+                        const img = new Image();
+                        img.crossOrigin = "anonymous";
+                        img.src = imageUrl;
+                        img.onload = function() {
+                            playMotionVideo(img, sceneNum);
+                            addDownloadButton(sceneNum, imageUrl);
+                            
+                            completedScenes++;
+                            let progressPercent = (completedScenes / totalScenes) * 100;
+                            document.getElementById('progress').style.width = progressPercent + "%";
+                            document.getElementById('current-status').innerText = `Rendered ${completedScenes}/${totalScenes} Scenes in Parallel!`;
+                            resolve();
+                        };
+                    })
+                    .catch(error => {
+                        logMessage(`⚠️ Scene ${sceneNum} Error! Auto Switching Engine...`);
+                        currentEngine = (currentEngine + 1) % totalEngines + 1;
+                        setTimeout(() => {
+                            renderSingleScene(sceneNum, basePrompt).then(resolve);
+                        }, 100);
+                    });
+            });
         }
 
         function playMotionVideo(imgObj, sceneNum) {
             const canvas = document.getElementById('cineCanvas');
             const ctx = canvas.getContext('2d');
             let scale = 1.0;
-            let step = 0.0015;
+            let step = 0.002;
 
             if (animationId) cancelAnimationFrame(animationId);
 
             function animate() {
                 scale += step;
-                if (scale > 1.15 || scale < 1.0) step = -step;
+                if (scale > 1.12 || scale < 1.0) step = -step;
 
                 ctx.save();
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -173,85 +260,26 @@
                 ctx.drawImage(imgObj, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
                 ctx.restore();
 
-                // सिनेमैटिक सीन टाइटल ओवरले
-                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-                ctx.fillRect(20, 20, 240, 40);
-                ctx.fillStyle = "#ffffff";
+                ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+                ctx.fillRect(20, 20, 260, 40);
+                ctx.fillStyle = "#3fb950";
                 ctx.font = "bold 18px Arial";
-                ctx.fillText(`🎬 SCENE PART #${sceneNum}`, 35, 46);
+                ctx.fillText(`⚡ TURBO SCENE #${sceneNum}`, 35, 46);
 
                 animationId = requestAnimationFrame(animate);
             }
             animate();
         }
 
-        function renderScene(sceneNum, basePrompt) {
-            if (sceneNum > totalScenes) {
-                logMessage("=== 🎉 पूरी वेब सीरीज़ का मोशन वीडियो सीक्वेंस सफलतापूर्वक तैयार हो गया है! ===");
-                document.getElementById('progress').style.width = "100%";
-                document.getElementById('current-status').innerText = "Ultimate Series Motion Render Complete!";
-                return;
-            }
-
-            let progressPercent = (sceneNum / totalScenes) * 100;
-            document.getElementById('progress').style.width = progressPercent + "%";
-            document.getElementById('current-status').innerText = `Rendering Scene ${sceneNum}/${totalScenes} using Engine #${currentEngine}`;
-            
-            logMessage(`▶️ Scene ${sceneNum} की कोशिश जारी है: Engine #${currentEngine}...`);
-
-            const scenePrompt = `${basePrompt} - Scene Part ${sceneNum} of ${totalScenes}, Cinematic motion film style, highly detailed 8K`;
-            const encoded = encodeURIComponent(scenePrompt);
-
-            // API कॉल with current engine rotation
-            fetch(`https://text.pollinations.ai/${encoded}?model=openai&seed=${currentEngine * sceneNum}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Engine #${currentEngine} Rate Limit Hit`);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    logMessage(`✅ सफलता! Scene ${sceneNum} को Engine #${currentEngine} ने प्रोसेस कर दिया।`);
-                    
-                    const imageUrl = `https://image.pollinations.ai/prompt/${encoded}?width=1024&height=576&seed=${currentEngine * sceneNum}&nologo=true`;
-                    
-                    const img = new Image();
-                    img.crossOrigin = "anonymous";
-                    img.src = imageUrl;
-                    img.onload = function() {
-                        // लाइव मोशन एनीमेशन स्टार्ट करें
-                        playMotionVideo(img, sceneNum);
-
-                        // डाउनलोड बटन अपडेट करें
-                        const downloadBox = document.getElementById('download-box');
-                        downloadBox.innerHTML = `
-                            <p style="color: #3fb950; font-weight: bold; margin-bottom: 6px;">✨ Scene ${sceneNum} Motion Video Ready!</p>
-                            <button onclick="downloadMedia('${imageUrl}', 'Scene_${sceneNum}_Cinematic.jpg')" style="width: auto; padding: 8px 18px; background: #238636; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">📥 Download Scene ${sceneNum} Media File</button>
-                        `;
-
-                        // अगले सीन पर ऑटोमैटिक बढ़ना
-                        setTimeout(() => {
-                            renderScene(sceneNum + 1, basePrompt);
-                        }, 2500);
-                    };
-                })
-                .catch(error => {
-                    // **ऑटोमैटिक फेलओवर लूप:** जैसे ही लिमिट खत्म होगी, बिना रुके तुरंत अगले इंजन पर कूद जाएगा!
-                    logMessage(`⚠️ Engine #${currentEngine} की लिमिट खत्म! तुरंत अगले इंजन पर कूद रहे हैं...`);
-                    
-                    currentEngine++;
-                    if (currentEngine > totalEngines) {
-                        currentEngine = 1; // 80 के बाद वापस पहले इंजन से साइकिल घुमाएगा
-                    }
-
-                    // बिना रुके उसी सीन को नए इंजन से दोबारा ट्राई करेगा
-                    setTimeout(() => {
-                        renderScene(sceneNum, basePrompt);
-                    }, 300);
-                });
+        function addDownloadButton(sceneNum, url) {
+            const grid = document.getElementById('downloads-grid');
+            const btn = document.createElement('button');
+            btn.className = 'download-btn';
+            btn.innerText = `📥 Save Scene ${sceneNum}`;
+            btn.onclick = () => downloadMedia(url, `Scene_${sceneNum}_Turbo.jpg`);
+            grid.appendChild(btn);
         }
 
-        // सेफ डायरेक्ट डाउनलोड फंक्शन (Blob method)
         function downloadMedia(url, filename) {
             fetch(url)
                 .then(response => response.blob())
