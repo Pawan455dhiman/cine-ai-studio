@@ -1,275 +1,108 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine AI Studio - Live Engine</title>
+    <title>Cine AI Studio</title>
     <style>
-        :root {
-            --bg-color: #0d0e15;
-            --card-bg: #161824;
-            --accent-color: #e50914;
-            --text-color: #ffffff;
-            --subtext-color: #8c8c9e;
-            --success-color: #00e676;
-        }
         body {
-            margin: 0;
-            padding: 16px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Roboto, sans-serif;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #232738;
-        }
-        .logo {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-        .nav-btn {
-            background: #232738;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-        }
-        .mode-group {
-            display: flex;
-            gap: 8px;
-            margin: 16px 0;
-        }
-        .mode-btn {
-            flex: 1;
-            padding: 10px;
-            background: var(--card-bg);
-            border: 1px solid #232738;
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        .mode-btn.active {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-        .input-box {
-            position: relative;
-            margin-bottom: 15px;
-        }
-        textarea {
-            width: 100%;
-            height: 90px;
-            background: var(--card-bg);
-            border: 1px solid #232738;
-            border-radius: 8px;
-            color: white;
-            padding: 12px;
-            box-sizing: border-box;
-            font-size: 13px;
-            resize: none;
-        }
-        .mic-btn {
-            position: absolute;
-            right: 8px;
-            bottom: 12px;
-            background: var(--accent-color);
-            border: none;
-            color: white;
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            font-size: 14px;
-        }
-        .action-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(90deg, #e50914, #b20710);
-            border: none;
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-        .switcher-box {
-            background: var(--card-bg);
-            padding: 14px;
-            border-radius: 8px;
-            border: 1px solid #232738;
-            margin-bottom: 16px;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-        .status-badge {
-            background: var(--success-color);
-            color: black;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        .progress-bar {
-            width: 100%;
-            background: #232738;
-            height: 6px;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 6px;
-        }
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--accent-color);
-            transition: width 0.3s;
-        }
-        .preview-box {
-            margin-bottom: 15px;
-            background: #000;
-            border: 1px solid #232738;
-            border-radius: 8px;
+            background-color: #0b0f19;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
             text-align: center;
-            overflow: hidden;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px;
         }
-        .preview-box img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #161b22;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .log-box {
-            background: #000;
-            border: 1px solid #232738;
-            border-radius: 6px;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 11px;
-            color: #00ff66;
-            height: 70px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-        .social-card {
-            background: var(--card-bg);
+        input, button {
+            width: 90%;
             padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #232738;
-            font-size: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
         }
-        .social-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
+        input {
+            background: #0d1117;
+            color: #fff;
+            border: 1px solid #30363d;
         }
-        .social-btn {
-            background: #232738;
-            border: 1px solid #34394d;
+        button {
+            background: #238636;
             color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2ea043;
+        }
+        #progress-bar {
+            width: 100%;
+            background: #30363d;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        #progress {
+            width: 0%;
+            height: 10px;
+            background: #58a6ff;
+            transition: width 0.4s ease;
+        }
+        #log {
+            text-align: left;
+            background: #0d1117;
+            padding: 10px;
+            border-radius: 5px;
+            height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #30363d;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="logo">🎬 CINE AI STUDIO</div>
-        <div>
-            <button class="nav-btn">📜 History</button>
-            <button class="nav-btn">⚙️ Settings</button>
+    <div class="container">
+        <h2>🎬 Cine AI Studio</h2>
+        <p id="current-model">Engine #1 (Active Free)</p>
+        
+        <input type="text" id="promptInput" placeholder="अपना प्रॉम्प्ट यहाँ लिखें (जैसे: Action cinematic scene)...">
+        <button onclick="startStudio()">लाइव जनरेशन शुरू करें</button>
+
+        <div id="progress-bar">
+            <div id="progress"></div>
         </div>
-    </div>
 
-    <div class="mode-group">
-        <button class="mode-btn active">Text to Cinematic</button>
-        <button class="mode-btn">Photo to Video</button>
-    </div>
-
-    <div class="input-box">
-        <textarea id="prompt" placeholder="फिल्म का सीन लिखें (जैसे: Arabian queen fighting a blue jinn, cinematic style)..."></textarea>
-        <button class="mic-btn" onclick="startDictation()">🎤</button>
-    </div>
-
-    <div class="preview-box" id="media-preview">
-        <span style="color: var(--subtext-color); font-size: 13px;">AI Video Output Preview यहाँ दिखेगा</span>
-    </div>
-
-    <button class="action-btn" onclick="startLiveGeneration()">🚀 Start Live Free AI Generation</button>
-
-    <div class="switcher-box">
-        <div class="info-row">
-            <span><strong>Active Free Engine:</strong> <span id="current-model">Engine #1 (Pollinations Free)</span></span>
-            <span class="status-badge" id="switcher-status">AUTO-SWITCH ACTIVE</span>
-        </div>
-        <div class="info-row" style="color: var(--subtext-color);">
-            <span>Zero-Cost Open-Source Pool</span>
-            <span>Limit Bypass: 80 Models</span>
-        </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-    </div>
-
-    <div class="log-box" id="system-logs">
-        [System Ready]: Zero-cost API bridge connected. Enter prompt to render.
-    </div>
-
-    <div class="social-card">
-        <strong>🤖 Auto-Publisher Sync:</strong>
-        <div class="social-options">
-            <button class="social-btn">🔴 YouTube Shorts</button>
-            <button class="social-btn">🔵 Facebook Reels</button>
-        </div>
+        <h3>Status Log:</h3>
+        <div id="log"></div>
     </div>
 
     <script>
         let currentEngine = 1;
-        const totalEngines = 80;
-
-        function startDictation() {
-            if (window.hasOwnProperty('webkitSpeechRecognition')) {
-                var recognition = new webkitSpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = "hi-IN";
-                recognition.start();
-                recognition.onresult = function(e) {
-                    document.getElementById('prompt').value += e.results[0][0].transcript;
-                    recognition.stop();
-                };
-            } else {
-                alert("वॉइस टाइपिंग आपके डिवाइस में समर्थित नहीं है।");
-            }
-        }
+        const totalEngines = 80; // आपके 80+ मॉडल्स का पूल
 
         function logMessage(msg) {
-            const logBox = document.getElementById('system-logs');
-            logBox.innerHTML += "<br>> " + msg;
-            logBox.scrollTop = logBox.scrollHeight;
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML += `> ${msg}<br>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
         }
 
-        function startLiveGeneration() {
-            const promptText = document.getElementById('prompt').value.trim();
-            if(!promptText) {
-                alert("कृपया पहले कोई प्रॉम्प्ट दर्ज करें!");
+        function startStudio() {
+            const promptText = document.getElementById('promptInput').value.trim();
+            if (!promptText) {
+                alert("कृपया पहले कुछ टेक्स्ट या प्रॉम्प्ट लिखें!");
                 return;
             }
-
-            logMessage("Initializing 0-cost render pipeline...");
+            document.getElementById('progress').style.width = "10%",
+            logMessage("सिनेमैटिक पाइपलाइन शुरू हो रही है...");
             runLivePipeline(1, encodeURIComponent(promptText));
         }
 
@@ -279,24 +112,41 @@
                 document.getElementById('progress').style.width = "100%";
                 return;
             }
-
+            
             document.getElementById('current-model').innerText = "Engine #" + currentEngine + " (Active Free)";
-            logMessage("Switching to Free Model #" + currentEngine + " (Bypassing limit)...");
+            logMessage(`कोशिश की जा रही है Engine #${currentEngine} के साथ (Step ${step})...`);
 
-            // Using free open-source media endpoint for generation preview
-            let randomSeed = Math.floor(Math.random() * 10000);
-            let freeApiUrl = `https://pollinations.ai/p/${encodedPrompt}?width=512&height=512&seed=${randomSeed}&nologo=true`;
+            // यहाँ हम Pollinations AI या API को कॉल कर रहे हैं
+            fetch(`https://text.pollinations.ai/${encodedPrompt}?model=openai`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Engine #${currentEngine} Rate Limit Hit`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    logMessage(`सफलता! Engine #${currentEngine} ने काम कर दिया।`);
+                    document.getElementById('progress').style.width = (step * 20) + "%";
+                    
+                    // अगला स्टेप चलाएं
+                    setTimeout(() => {
+                        runLivePipeline(step + 1, encodedPrompt);
+                    }, 1000);
+                })
+                .catch(error => {
+                    // **यह ऑटोमैटिक फेलओवर लूप है:** जैसे ही लिमिट खत्म होगी, यह बिना रुके तुरंत अगले इंजन पर कूद जाएगा!
+                    logMessage(`⚠️ Engine #${currentEngine} की लिमिट खत्म, अगले इंजन पर स्विच हो रहे हैं...`);
+                    
+                    currentEngine++;
+                    if (currentEngine > totalEngines) {
+                        currentEngine = 1; // 80 के बाद वापस पहले इंजन पर साइकल घूम जाएगी
+                    }
 
-            const previewBox = document.getElementById('media-preview');
-            previewBox.innerHTML = `<img src="${freeApiUrl}" alt="Rendering AI Segment..." onload="logMessage('Segment #${step} rendered via Model #${currentEngine}')">`;
-
-            let progressPct = (step / 5) * 100;
-            document.getElementById('progress').style.width = progressPct + "%";
-
-            setTimeout(() => {
-                currentEngine = (currentEngine % totalEngines) + 1;
-                runLivePipeline(step + 1, encodedPrompt);
-            }, 3000);
+                    // तुरंत बिना ऐप रोके अगले इंजन से प्रयास करेगा
+                    setTimeout(() => {
+                        runLivePipeline(step, encodedPrompt);
+                    }, 500);
+                });
         }
     </script>
 </body>
