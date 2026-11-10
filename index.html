@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineAI Master - Multi-Shot Automation</title>
+    <title>CineAI Master - Movie Automation</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0f172a; color: #f8fafc; padding: 15px; }
@@ -18,24 +18,29 @@
         .status { margin-bottom: 15px; padding: 10px; border-radius: 6px; background: #334155; font-size: 13px; text-align: center; }
         .gallery { display: flex; flex-direction: column; gap: 15px; }
         .card { background: #0f172a; border-radius: 8px; padding: 10px; border: 1px solid #334155; }
-        .card img, .card video { width: 100%; border-radius: 6px; display: block; margin-top: 8px; }
-        .card-header { font-size: 12px; color: #38bdf8; font-weight: bold; }
+        .card-header { font-size: 12px; color: #38bdf8; font-weight: bold; margin-bottom: 5px; }
+        .movie-screen { width: 100%; height: 300px; background: #000; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .movie-screen img { width: 100%; height: 100%; object-fit: cover; animation: cinematicZoom 5s infinite alternate; }
+        @keyframes cinematicZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>CineAI Master 🎬</h1>
+    <h1>CineAI Master 🎬 (Movie Mode)</h1>
     
-    <label for="prompts">प्रॉम्ट लिस्ट (हर लाइन में 1 नया शॉट लिखें):</label>
+    <label for="prompts">मूवी शॉट्स (हर लाइन में 1 सीक्वेंस लिखें):</label>
     <textarea id="prompts" placeholder="Shot 1: Neon alleyway rain night&#10;Shot 2: Laila kicks guard in mid-air&#10;Shot 3: Smoke screen from pipe..."></textarea>
 
     <div class="btn-group">
-        <button id="startBtn" onclick="startBatch()">ऑटोमेशन शुरू करें</button>
-        <button id="stopBtn" onclick="stopBatch()" disabled style="background:#dc2626;">रोकें</button>
+        <button id="startBtn" onclick="startMovieAutomation()">मूवी सीक्वेंस चलाएं</button>
+        <button id="stopBtn" onclick="stopMovie()" disabled style="background:#dc2626;">रोकें</button>
     </div>
 
-    <div class="status" id="statusText">रेडी - प्रॉम्ट डालकर ऑटोमेशन चालू करें</div>
+    <div class="status" id="statusText">रेडी - मूवी ऑटोमेशन के लिए प्रॉम्ट डालें</div>
 
     <div class="gallery" id="gallery"></div>
 </div>
@@ -43,7 +48,7 @@
 <script>
     let isRunning = false;
 
-    async function startBatch() {
+    async function startMovieAutomation() {
         const text = document.getElementById('prompts').value.trim();
         if (!text) {
             alert('कृपया कम से कम एक प्रॉम्ट दर्ज करें!');
@@ -63,32 +68,33 @@
             if (!isRunning) break;
 
             const promptText = lines[i].trim();
-            updateStatus(`प्रोसेस हो रहा है: Shot ${i + 1} of ${lines.length}`);
+            updateStatus(`मूवी फ्रेम रेंडर हो रहा है: Shot ${i + 1} of ${lines.length}`);
 
-            // Generate using Pollinations Free Engine Loop
             const seed = Math.floor(Math.random() * 999999);
-            const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptText)}?seed=${seed}&width=1080&height=1920&nologo=true`;
+            // High quality cinematic frame generation with motion styling
+            const frameUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptText + ", cinematic action movie still, professional color grading, 4k")}?seed=${seed}&width=1280&height=720&nologo=true`;
 
-            // Append Result to Gallery
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <div class="card-header">Shot ${i + 1}: ${promptText}</div>
-                <img src="${imageUrl}" alt="Generated Shot" loading="lazy" />
+                <div class="card-header">Scene ${i + 1}: ${promptText}</div>
+                <div class="movie-screen">
+                    <img src="${frameUrl}" alt="Movie Frame" />
+                </div>
             `;
             gallery.prepend(card);
 
-            // Wait 2 seconds before next shot for server stability
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Cinematic delay per shot to mimic video playback flow
+            await new Promise(resolve => setTimeout(resolve, 3000));
         }
 
-        updateStatus(isRunning ? 'सभी शॉट्स सफलतापूर्वक बन गए!' : 'प्रोसेस रोक दिया गया');
+        updateStatus(isRunning ? 'मूवी सीक्वेंस तैयार है!' : 'प्रोसेस रोक दिया गया');
         document.getElementById('startBtn').disabled = false;
         document.getElementById('stopBtn').disabled = true;
         isRunning = false;
     }
 
-    function stopBatch() {
+    function stopMovie() {
         isRunning = false;
         updateStatus('रोका जा रहा है...');
     }
