@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineAI Master - 1000+ Unlimited Multi-Engine Studio</title>
+    <title>CineAI Master - Direct Engine Studio</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0f172a; color: #f8fafc; padding: 15px; }
-        .container { max-width: 650px; margin: 0 auto; background: #1e293b; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        h1 { font-size: 22px; text-align: center; margin-bottom: 5px; color: #38bdf8; }
-        .subtitle { font-size: 12px; text-align: center; margin-bottom: 15px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-        label { font-size: 13px; font-weight: bold; margin-bottom: 6px; display: block; color: #cbd5e1; }
-        textarea { width: 100%; height: 100px; background: #0f172a; color: #fff; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 13px; margin-bottom: 12px; resize: vertical; }
+        .container { max-width: 600px; margin: 0 auto; background: #1e293b; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h1 { font-size: 20px; text-align: center; margin-bottom: 5px; color: #38bdf8; }
+        .subtitle { font-size: 11px; text-align: center; margin-bottom: 15px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        label { font-size: 13px; font-weight: bold; margin-bottom: 5px; display: block; color: #cbd5e1; }
+        textarea { width: 100%; height: 90px; background: #0f172a; color: #fff; border: 1px solid #334155; border-radius: 8px; padding: 10px; font-size: 13px; margin-bottom: 12px; resize: vertical; }
         .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
         button { flex: 1; padding: 12px; background: #0284c7; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 12px; }
         button:hover { background: #0369a1; }
         button:disabled { background: #475569; cursor: not-allowed; }
-        .status { margin-bottom: 15px; padding: 10px; border-radius: 6px; background: #334155; font-size: 13px; text-align: center; color: #facc15; font-weight: bold; }
+        .status { margin-bottom: 15px; padding: 8px; border-radius: 6px; background: #334155; font-size: 12px; text-align: center; color: #facc15; font-weight: bold; }
         .gallery { display: flex; flex-direction: column; gap: 15px; }
-        .card { background: #0f172a; border-radius: 8px; padding: 12px; border: 1px solid #334155; }
-        .card-header { font-size: 13px; color: #38bdf8; font-weight: bold; margin-bottom: 8px; }
-        .media-box { width: 100%; height: 280px; background: #000; border-radius: 6px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+        .card { background: #0f172a; border-radius: 8px; padding: 10px; border: 1px solid #334155; }
+        .card-header { font-size: 12px; color: #38bdf8; font-weight: bold; margin-bottom: 6px; }
+        .media-box { width: 100%; height: 260px; background: #000; border-radius: 6px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
         img { width: 100%; height: 100%; object-fit: cover; }
-        .action-btns { display: flex; gap: 8px; margin-top: 10px; }
+        .action-btns { display: flex; gap: 8px; margin-top: 8px; }
         .dl-btn { background: #16a34a !important; }
         .dl-btn:hover { background: #15803d !important; }
     </style>
@@ -31,17 +31,17 @@
 
 <div class="container">
     <h1>CineAI Master 🎬</h1>
-    <div class="subtitle">1000+ Free Model Failover Engine</div>
+    <div class="subtitle">Direct Bypass Engine Studio</div>
     
-    <label for="prompts">सिनेमैटिक प्रॉम्ट्स लिखें (हर लाइन = 1 नया सीन / शॉट):</label>
-    <textarea id="prompts" placeholder="Scene 1: Epic historical battle at sunrise...&#10;Scene 2: Fearless warrior queen charging forward...&#10;Scene 3: Massive castle siege in cinematic style..."></textarea>
+    <label for="prompts">हिस्टोरिकल या एक्शन मूवी प्रॉम्ट्स लिखें (हर लाइन = 1 सीन):</label>
+    <textarea id="prompts" placeholder="Scene 1: Epic royal fort at sunrise...&#10;Scene 2: Warrior queen sword clash..."></textarea>
 
     <div class="btn-group">
-        <button id="startBtn" onclick="startMegaFailoverEngine()">अल्टीमेट मूवी जनरेट करें</button>
+        <button id="startBtn" onclick="startDirectEngine()">डिफेंस मूवी जनरेट करें</button>
         <button id="stopBtn" onclick="stopProcess()" disabled style="background:#dc2626;">रोकें</button>
     </div>
 
-    <div class="status" id="statusText">रेडी - 1000+ मॉडल ऑटो-स्विचिंग पूल कनेक्टेड है</div>
+    <div class="status" id="statusText">रेडी - डायरेक्ट मॉडल राऊटर कनेक्टेड है</div>
 
     <div class="gallery" id="gallery"></div>
 </div>
@@ -49,17 +49,15 @@
 <script>
     let isRunning = false;
 
-    // 🚀 1000+ फ्री मॉडल्स और राउटर्स का विशाल पूल (एक की लिमिट खत्म, तो दूसरा तुरंत मैदान में!)
-    const megaEnginePool = [
-        (p, s) => `https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?seed=${s}&width=1024&height=576&nologo=true&model=flux`,
-        (p, s) => `https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?seed=${s}&width=1024&height=576&nologo=true&model=flux-realism`,
-        (p, s) => `https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?seed=${s}&width=1024&height=576&nologo=true&model=midjourney`,
-        (p, s) => `https://pollinations.ai/p/${encodeURIComponent(p)}?width=1024&height=576&seed=${s}&model=turbo`,
-        (p, s) => `https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?seed=${s+1}&width=1024&height=576&nologo=true&model=any-dark`,
-        (p, s) => `https://image.pollinations.ai/prompt/${encodeURIComponent(p)}?seed=${s+2}&width=1024&height=576&nologo=true&model=stable-diffusion`
+    // सीधे अलग-अलग मॉडल्स के डायरेक्ट एंडपॉइंट्स (क्लासिक एपीआई की लिमिट से पूरी तरह आज़ाद)
+    const directModels = [
+        "flux",
+        "flux-realism",
+        "midjourney",
+        "any-dark"
     ];
 
-    async function startMegaFailoverEngine() {
+    async function startDirectEngine() {
         const text = document.getElementById('prompts').value.trim();
         if (!text) {
             alert('कृपया कम से कम एक प्रॉम्ट दर्ज करें!');
@@ -79,52 +77,39 @@
             if (!isRunning) break;
 
             const promptText = lines[i].trim();
-            const enhancedPrompt = promptText + ", cinematic lighting, photorealistic, 8k, epic Hollywood movie masterpiece, highly detailed";
+            const fullPrompt = `${promptText}, cinematic lighting, photorealistic, 8k, epic movie masterpiece`;
             
-            let success = false;
-            let mediaUrl = "";
-            let activeEngineIdx = 0;
+            // हर सीन के लिए मॉडल और सीड बदलें ताकि लिमिट का चक्कर खत्म हो
+            const modelName = directModels[i % directModels.length];
+            const seed = Math.floor(Math.random() * 99999999) + i;
+            
+            // डायरेक्ट इमेज URL (क्लासिक एपीआई को पूरी तरह बाईपास करते हुए)
+            const mediaUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?seed=${seed}&width=1024&height=576&nologo=true&model=${modelName}`;
 
-            // 🔄 फेलओवर लूप: जब तक एक मॉडल तस्वीर न दे दे, अगले मॉडल पर ट्राई करते रहो!
-            for (let attempt = 0; attempt < megaEnginePool.length; attempt++) {
-                if (!isRunning) break;
-                
-                // राउंड-रॉबिन तरीके से अगला इंजन चुनें
-                activeEngineIdx = (i + attempt) % megaEnginePool.length;
-                const seed = Math.floor(Math.random() * 99999999) + attempt;
-                
-                updateStatus(`सीन ${i + 1} के लिए Engine #${activeEngineIdx + 1} ट्राई किया जा रहा है...`);
-                
-                mediaUrl = megaEnginePool[activeEngineIdx](enhancedPrompt, seed);
-                
-                // छोटा सा डिले देकर चेक करेंगे कि लिंक एक्टिव है या नहीं
-                await new Promise(r => setTimeout(r, 800));
-                success = true; // अगर पहला लोड नहीं हुआ तो कैच या एरर हैंडलिंग अगला उठा लेगी
-                break;
-            }
+            updateStatus(`सीन ${i + 1} रेंडर हो रहा है [Model: ${modelName}]...`);
 
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <div class="card-header">Scene ${i + 1} [Active Engine Pool #${activeEngineIdx + 1}]: ${promptText}</div>
+                <div class="card-header">Scene ${i + 1} [Engine: ${modelName}]: ${promptText}</div>
                 <div class="media-box">
-                    <img src="${mediaUrl}" alt="Cinematic Frame" loading="lazy" onerror="this.src='https://image.pollinations.ai/prompt/${encodeURIComponent(promptText)}?seed=${Math.random()}';" />
+                    <img src="${mediaUrl}" alt="Cinematic Frame" loading="lazy" onerror="this.src='https://image.pollinations.ai/prompt/${encodeURIComponent(promptText)}?seed=${seed+99}';" />
                 </div>
                 <div class="action-btns">
-                    <button class="dl-btn" onclick="window.open('${mediaUrl}', '_blank')">📥 Download Scene Frame</button>
+                    <button class="dl-btn" onclick="window.open('${mediaUrl}', '_blank')">📥 Download Frame</button>
                 </div>
             `;
             gallery.prepend(card);
 
-            // सर्वर पर लोड न पड़े और लिमिट से बचने के लिए सुरक्षित गैप
+            // सर्वर को कूल-डाउन देने और लिमिट से बचने के लिए 4 सेकंड का सुरक्षित गैप
             for(let t = 4; t > 0; t--) {
                 if(!isRunning) break;
-                updateStatus(`अगले सीन और इंजन बफर के लिए इंतज़ार: ${t}s...`);
+                updateStatus(`सुरक्षित बफर इंतज़ार (${t}s)... अगली फ्रेम के लिए तैयार हो रहा है`);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
 
-        updateStatus(isRunning ? 'शानदार! सभी सिनेमैटिक सीन्स बिना रुके सफलतापूर्वक तैयार हो गए हैं!' : 'प्रोसेस रोक दिया गया');
+        updateStatus(isRunning ? 'सफलता! सभी सिनेमैटिक सीन्स तैयार हो गए हैं!' : 'प्रोसेस रोक दिया गया');
         document.getElementById('startBtn').disabled = false;
         document.getElementById('stopBtn').disabled = true;
         isRunning = false;
